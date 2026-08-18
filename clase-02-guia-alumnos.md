@@ -151,6 +151,17 @@ Antes de investigar, definan dónde van a mirar y qué dejarán fuera.
 
 ---
 
+## 1. Territorio de investigación
+
+
+- **Dominio:** Organización de partidos de pádel amateur.
+- **Usuario inicial:** Jugadores adultos que juegan pádel recreativo de forma regular con un grupo fijo o semi-fijo.
+- **Contexto:** El momento en que a un grupo le falta gente para completar el equipo (el cuarteto necesario para el 2v2) y/o necesita conseguir cancha.
+- **Supuestos iniciales:** Que conseguir gente confiable y *del mismo nivel* es más doloroso que conseguir cancha; que los grupos de WhatsApp son la alternativa dominante hoy para suplencias; que la confianza/seguridad es una barrera real para sumar desconocidos; que la falta de un jugador frustra el partido entero (no se puede jugar 3 personas); las personas buscan conocer gente nueva a través del deporte (ejemplo: Running).
+- **Fuera de alcance:** Ligas federadas, clases o escuelas de pádel, pádel infantil, torneos profesionales, otros deportes.
+
+
+
 # Paso 2 — Realizar research secundario asistido por IA
 
 **Duración:** 25 minutos  
@@ -233,6 +244,36 @@ Una lista de entre 5 y 10 problemas potenciales con sus fuentes originales.
 
 - 
 ```
+
+## 2. Research secundario
+
+### Problemas potenciales
+
+| Problema potencial | Usuario | Contexto | Evidencia | Fuente | Hecho, interpretación o supuesto | Preguntas pendientes |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Nivel de juego dispar al sumar desconocidos** | Organizador / Jugador que se suma | Al faltar 1 o 2 jugadores para completar el 2v2 | Las principales apps del mercado basan su propuesta de valor en esto. Playtomic usa un algoritmo dinámico de nivel tras cada partido competitivo; iPadel y PlayMix destacan sus filtros por nivel. Sin embargo, Playtomic y iPadel no ofrece servicios realmente en Buenos Aires y se basa más en la reserva de canchas. Franco Tibaldi, creador de la app argentina GetMatch, señala que al armar partidos por WhatsApp en Argentina hay "diferencias de nivel muy grandes entre jugadores", lo que arruina la experiencia. Apps locales como Playmatch nacieron justamente para buscar jugadores parejos. | Playtomic, iPadel, PlayMix<br><br>https://bacap.com.ar/2026/03/27/getmatch-la-app-marplatense-que-conecta-jugadores-partidos-y-torneos-de-padel/<br><br>https://playmatch.app/<br><br>Experiencia Personal. | **Hecho** (la industria identifica este feature como indispensable para que el partido no sea frustrante). Los desarrolladores y los clubes argentinos reconocen que el nivel parejo es fundamental y hoy se gestiona de forma muy manual. | ¿Los jugadores argentinos confían en el nivel que un desconocido dice tener en un grupo de WhatsApp, o necesitan un sistema de ranking verificado? |
+| **El mercado de reservas local tiene fricciones no resueltas** | Organizador del partido | Búsqueda de turno en clubes locales | Aunque existen apps locales como "Alquila Tu Cancha" (ATC) que prometen "olvidarse de las llamadas", muchos de los clubes más grandes de CABA (como World Padel Center o Complejo Urquiza) aún obligan a los usuarios a reservar exclusivamente enviando mensajes por WhatsApp y transfiriendo una seña, lo que demuestra que la digitalización de las canchas no es total. Se podría integrar todo en una aplicación. | La Nación (2023), Pádel Speed, Web de Flobi<br><br>Alquila Tu Cancha<br><br>World Padel Center Capital | **Hecho / Interpretación** (A pesar de que hay apps de reserva, muchos clubes en Buenos Aires siguen anclados al proceso manual y lento de WhatsApp). | ¿Por qué los clubes de Buenos Aires prefieren seguir usando WhatsApp y cobrar seña manual en lugar de usar apps de reserva automática? |
+| **Alta vulnerabilidad al ausentismo (No-show)** | Organizador del grupo | Horas previas a que comience el turno de cancha | A diferencia del fútbol 5 (donde se puede jugar 4v5), en el pádel la ausencia de 1 jugador impide jugar o fuerza a jugar modalidades raras (1v2). El equipo desarrollador de GetMatch identifica que los grupos de WhatsApp argentinos "se llenan de mensajes intentando resolver siempre el mismo problema: conseguir con quién jugar a último momento". En el pádel, a diferencia del fútbol, la baja de un solo jugador impide que se juegue el partido. | Lógica estructural del deporte.<br><br>https://bacap.com.ar/2026/03/27/getmatch-la-app-marplatense-que-conecta-jugadores-partidos-y-torneos-de-padel/ | **Supuesto** (Inferimos que el dolor de que "se baje uno" es mucho mayor y más estresante que en otros deportes). Además es lo que un emprendedor similar tiene en mente como problema. | ¿Qué porcentaje de partidos armados por WhatsApp se cancelan definitivamente a último momento por la baja de una sola persona? |
+| **Preocupación de seguridad/confianza** | Jugador amateur | Antes del encuentro con jugadores que no conoce | La desconfianza al jugar con desconocidos en Argentina pasa más por la confianza deportiva (que asista y juegue bien) que por la seguridad física. El objetivo de las nuevas plataformas locales es permitir al jugador "seguir jugando sin depender de conocer gente previamente", eliminando la barrera social del circuito cerrado. | https://bacap.com.ar/2026/03/27/getmatch-la-app-marplatense-que-conecta-jugadores-partidos-y-torneos-de-padel/<br><br>Experiencia personal. | **Hecho/Interpretación** (funcionalidad de mitigación de riesgo existente en competidores). Basado en la experiencia de usuarios que adoptan apps para evitar interactuar a ciegas. | ¿La principal barrera para sumar un jugador nuevo es el miedo a que sea problemático, a que falte, o a que juegue muy mal? |
+| **Conocer gente nueva a través del deporte** | Jugador / Organizador | Las personas buscan nuevas formas de relacionarse con gente distinta como ya ha pasado con el Running. | Artículos periodísticos recientes reportan el surgimiento de eventos descritos como "Tinder de pádel" o "Tinder deportivos". En estos espacios, se combina el deporte con dinámicas explícitas de socialización (música, pulseras de colores) para facilitar el conocer gente nueva. | https://tn.com.ar/sociedad/2026/05/30/pulseras-musica-y-atraccion-como-es-el-tinder-padel-el-torneo-donde-se-puede-ganar-mas-que-un-partido/<br><br>https://www.clarin.com/relaciones/funcionan-nuevos-tinder-deportivos-tendencia-une-running-padel-bicicleta-conocer-gente_0_tcjbYFRc5e.html | **Hecho.** Ya hay lugares como en la noticia que se dedican a hacer esto y es una oportunidad a aprovechar. | ¿El jugador que arma un partido de los miércoles busca hacer amigos o solo quiere alguien que le devuelva la pelota? ¿Esta necesidad de socializar es para eventos especiales de fin de semana o aplica al partido de rutina? |
+
+### Fuentes consultadas
+
+* https://tn.com.ar/sociedad/2026/05/30/pulseras-musica-y-atraccion-como-es-el-tinder-padel-el-torneo-donde-se-puede-ganar-mas-que-un-partido/ 
+* https://www.clarin.com/relaciones/funcionan-nuevos-tinder-deportivos-tendencia-une-running-padel-bicicleta-conocer-gente_0_tcjbYFRc5e.html
+* https://bacap.com.ar/2026/03/27/getmatch-la-app-marplatense-que-conecta-jugadores-partidos-y-torneos-de-padel/ 
+* https://playmatch.app/ 
+
+### Dudas y contradicciones
+
+* **Sesgo comercial de las fuentes sobre el dolor de "falta uno":** Gran parte de la evidencia sobre la saturación de los grupos de WhatsApp y las dificultades para completar partidos proviene de creadores de aplicaciones locales (como GetMatch o Flobi) que venden esa solución. No existen estudios independientes o estadísticas cuantitativas neutrales que midan con exactitud qué porcentaje de partidos se cancelan semanalmente por ausentismo.
+* **Paradoja de digitalización en las canchas:** A pesar de la existencia de plataformas de reserva directa en el país (como Alquila Tu Cancha), muchos de los principales complejos de pádel en Buenos Aires siguen obligando a gestionar turnos y señas de forma manual vía WhatsApp. Queda la duda de si esto ocurre por resistencia cultural de los dueños, comisiones altas de las plataformas o conveniencia operativa.
+* **Subjetividad en la categorización de nivel:** Aunque los clubes y plataformas intentan ordenar los partidos por categorías (7ma, 6ta, 5ta, etc.), la autopercepción del nivel en el pádel amateur suele ser inconsistente. Falta comprobar si un filtro declarado por el usuario realmente previene la frustración de un partido desparejo.
+* **Tensión entre motivación social vs. deportiva:** Mientras que las notas periodísticas destacan el pádel como un espacio de socialización y citas ("Tinder deportivo"), los testimonios de jugadores y desarrolladores se centran en la frustración de jugar partidos de nivel dispar. No queda claro si la motivación principal del usuario diario es conectar con gente o competir en igualdad de condiciones.
+
+
+
+
 
 ---
 
