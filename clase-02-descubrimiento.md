@@ -571,7 +571,7 @@ desconocido total: suele venir avalado por alguien del círculo extendido (un
 compañero en común, un grupo grande de WhatsApp) que ya tiene una noción 
 aproximada de su nivel. Aun así, persiste una doble incertidumbre al 
 aceptarlo: (a) si va a presentarse de forma confiable —algunos grupos ya 
-mitigan esto con rituales manuales como llamar por teléfono para confirmar 
+mitigan esto con prácticas como llamar por teléfono para confirmar 
 asistencia y reconfirmar por WhatsApp hora y lugar—, y (b) si su forma de 
 jugar (posicionamiento, estilo, previsibilidad en la cancha) va a ser 
 compatible con la del resto, más allá de compartir una categoría de nivel 
@@ -592,7 +592,7 @@ confiabilidad. Sin embargo, todavía necesitamos comprobar: con qué frecuencia
 ocurre cada uno de los tres contextos y cuál pesa más para la mayoría de los 
 jugadores; si la variación en el impacto de la disparidad de nivel depende del 
 perfil del grupo (competitivo vs. recreativo); y qué proporción de grupos ya 
-usa rituales manuales de confirmación como el detectado en la Entrevista 4.
+usa prácticas de confirmación como el detectado en la Entrevista 4.
 
 Evidencia faltante (actualizada):
 - Qué proporción de jugadores prioriza confiabilidad por sobre nivel (o viceversa) — parece depender de la persona, falta ver si hay un patrón por perfil de grupo.
