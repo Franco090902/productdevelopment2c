@@ -242,7 +242,7 @@ Fusionamos los problemas A, C y D en uno solo ya que son capas del mismo problem
 - **Impact: 8.** El pádel requiere exactamente 4 jugadores; la ausencia de uno impide jugar en su formato normal. Falta dato de frecuencia real.
 - **Confidence: 6 (evaluación inicial, previa a entrevistas).** Hay señales coincidentes de varios actores del mercado, pero la parte de confianza/ausentismo depende casi enteramente de una fuente comercial (GetMatch).
 - **Ease: 9.** La ficha declara acceso "Alto" — el equipo y su círculo cercano juegan pádel regularmente.
-- **ICE = (8 × 6 × 9) / 100 = 4,32**
+- **ICE = (8 × 7 × 9) / 100 = 5,04**
 
 **Problema B (reservas)**
 
@@ -554,7 +554,50 @@ No se realizó esta instancia (paso omitido por decisión del equipo). Sin embar
 - Entrevistado 3: "Capaz armaría un grupo de WhatsApp así la comunicación es más fluida."
 
 ---
+### Redacción final (v4, actualizada con 4 entrevistas reales)
 
+El organizador —o cualquier jugador de pádel amateur que quiere jugar— tiene 
+dificultades para completar el cuarteto necesario cuando no puede resolverlo 
+dentro de su círculo de conocidos directo. Esto ocurre en tres contextos 
+conectados: (1) al armar el partido desde cero con el grupo habitual y faltar 
+uno o dos jugadores; (2) cuando un jugador fijo se baja a último momento —a 
+veces por motivos ajenos a su voluntad y a veces por simple bajada de 
+compromiso, lo cual genera un malestar marcado en el grupo—; y (3) cuando el 
+jugador quiere jugar ese día pero no tiene grupo armado, llevándolo en algunos 
+casos a sustituir el pádel por otra actividad o a reprogramar.
+
+Cuando el reemplazo debe salir de fuera del cuarteto fijo, casi nunca es un 
+desconocido total: suele venir avalado por alguien del círculo extendido (un 
+compañero en común, un grupo grande de WhatsApp) que ya tiene una noción 
+aproximada de su nivel. Aun así, persiste una doble incertidumbre al 
+aceptarlo: (a) si va a presentarse de forma confiable —algunos grupos ya 
+mitigan esto con rituales manuales como llamar por teléfono para confirmar 
+asistencia y reconfirmar por WhatsApp hora y lugar—, y (b) si su forma de 
+jugar (posicionamiento, estilo, previsibilidad en la cancha) va a ser 
+compatible con la del resto, más allá de compartir una categoría de nivel 
+similar.
+
+El impacto de esta segunda incertidumbre no es uniforme: para algunos 
+jugadores, sumar a alguien de nivel distinto no afecta la experiencia; para 
+otros, arruina la dinámica competitiva del partido. Lo que sí aparece de forma 
+más consistente entre los entrevistados es el malestar ante la bajada de 
+último momento en sí misma, más allá de si se consigue o no un reemplazo.
+
+Encontramos señales en la lógica estructural del deporte (requiere exactamente 
+4 jugadores), en cuatro entrevistas reales a jugadores regulares que relataron 
+partidos cancelados, reprogramados o complicados por esta razón, y en múltiples 
+productos del mercado (Playtomic, iPadel, PlayMix, Playmatch, GetMatch) que 
+construyen su propuesta de valor alrededor de conectar jugadores por nivel y 
+confiabilidad. Sin embargo, todavía necesitamos comprobar: con qué frecuencia 
+ocurre cada uno de los tres contextos y cuál pesa más para la mayoría de los 
+jugadores; si la variación en el impacto de la disparidad de nivel depende del 
+perfil del grupo (competitivo vs. recreativo); y qué proporción de grupos ya 
+usa rituales manuales de confirmación como el detectado en la Entrevista 4.
+
+Evidencia faltante (actualizada):
+- Qué proporción de jugadores prioriza confiabilidad por sobre nivel (o viceversa) — parece depender de la persona, falta ver si hay un patrón por perfil de grupo.
+- Qué tan extendido está el ritual manual de doble confirmación (llamada + WhatsApp) detectado en la Entrevista 4.
+- Si la variación en el impacto de la disparidad de nivel se explica por perfil competitivo vs. recreativo, o por otra variable.
 ## Paso 15 — Checklist antes de subir (a completar por el equipo)
 
 - [x] Entre 5 y 10 problemas potenciales.
@@ -572,14 +615,17 @@ No se realizó esta instancia (paso omitido por decisión del equipo). Sin embar
 - [x] Guion y registro de entrevistas a personas reales (4 de 3 mínimas).
 - [x] Supuestos pendientes y evidencia que podría refutarlos.
 
-### Cierre del equipo (completar antes de subir)
+## Hallazgos, contradicciones y cambios realizados al problema inicial
 
-```text
-El problema que decidimos investigar es:
-
-La evidencia más fuerte que encontramos es:
-
-El supuesto más riesgoso es:
-
-La pregunta más importante para los usuarios reales es:
-```
+- El problema estructural (deporte de 4 exactos) se confirma con evidencia real 
+  e independiente en 4 de 4 entrevistas.
+- La dimensión de confianza/confiabilidad, que con 3 entrevistas parecía débil, 
+  se revalidó con fuerza en la 4ta — se corrige la lectura anterior del equipo.
+- Se descubrió que "confianza" tiene dos capas distintas (asistencia vs. estilo 
+  de juego), que antes se trataban como una sola.
+- El impacto de la disparidad de nivel no es universal: 2 de 4 lo confirman 
+  como fuente de mala experiencia, 2 de 4 dicen que no les afecta.
+- Se descubrió un workaround manual ya en uso (llamada + doble confirmación por 
+  WhatsApp) no documentado en el research secundario.
+- Cambio de redacción: se incorporó la doble capa de confianza y se suavizó la 
+  afirmación de que la disparidad de nivel siempre arruina la experiencia.
