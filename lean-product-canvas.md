@@ -41,16 +41,20 @@
 > Los jugadores de pádel amateur organizados en grupos fijos o semi-fijos tienen dificultades para completar el cuarteto —por baja de último momento, armado desde cero, o falta de grupo ese día— cuando no pueden resolverlo dentro de su círculo directo, lo que genera partidos cancelados, degradados (1v2) o sustituidos por otra actividad. Esto representa una pérdida de frecuencia de juego para el usuario y de recurrencia para cualquier producto o cancha que dependa de que el partido efectivamente se juegue. Lo sabemos por 4 entrevistas reales, por la lógica estructural del deporte (exactamente 4 jugadores) y por múltiples competidores que construyen su propuesta alrededor de este problema. Todavía necesitamos comprobar la frecuencia real del fenómeno y si el impacto en retención es significativo o marginal.
 
 **Versión seleccionada: V3.** **[A CONFIRMAR por el equipo]**
-
+Confirmada la versión 3. La vemos como la más completa y realista. 
 ---
 
 ## 2. Resultados de negocio
 
 - Reducir la proporción de partidos cancelados o degradados (1v2) por falta de reemplazo, desde **pendiente de medir** hasta un objetivo a definir tras relevar una línea base, en un plazo de 3 meses desde el piloto.
-- Aumentar la frecuencia de juego semanal por usuario activo del piloto, desde **pendiente de medir** hasta un objetivo a definir, en 3 meses.
+- Aumentar la frecuencia de juego semanal por usuario activo del piloto, desde **pendiente de medir** hasta un objetivo a definir, en 3 meses. Podrá recomendar a sus amigos y sumar nuevos usuarios, medible con encuestas de recomendación. 
 - Reducir el tiempo promedio entre detectar la falta de un jugador y confirmar un reemplazo válido (nivel + asistencia), desde **pendiente de medir** (hoy resuelto ad-hoc por WhatsApp, sin dato de duración) hasta un objetivo a definir.
+-Aumentar la satisfacción del usuario al solucionar los problemas detectados anteriormente. Se puede medir con encuestas de satisfacción luego de lanzar el piloto. 
+-Conectar usuarios de distintas redes (amigos de amigos, conocidos de conocidos) para ampliar la red de contactos y encontrar reemplazos de manera más eficiente. Medible con métricas de "invitaciones aceptadas" y nuevos usuarios sumados.
+-Reducir la fricción y el tiempo perdido buscando reemplazos. Medible con métricas de tiempo promedio desde que se detecta la falta de un jugador hasta que se confirma un reemplazo válido.
+-Crear nuevos grupos de juego más allá de las redes actuales de los usuarios. Medible con métricas de "grupos creados" y "participantes nuevos por grupo".
 
-*No hay línea de base real todavía — los tres resultados quedan condicionados a medir primero el comportamiento actual antes de fijar números concretos.*
+Hay que medir en el futuro para confirmar.
 
 ---
 
@@ -59,7 +63,7 @@
 | Rol | Quién | Base |
 |---|---|---|
 | **Usuario** | Organizador del grupo fijo (persona *Matías*) y jugador sin grupo consolidado (persona *Valentina*) — ambos experimentan directamente el problema. | Personas construidas en Clase 2, confirmadas parcialmente por las 4 entrevistas. |
-| **Cliente** (quién pagaría) | **No confirmado.** Supuesto: el mismo usuario final, vía freemium o pago puntual por partido resuelto. Cliente B2B secundario posible: clubes interesados en reducir turnos cancelados — **no investigado**. | Supuesto, sin evidencia directa. |
+| **Cliente** (quién pagaría) | **No confirmado.** Supuesto: el mismo usuario final, mediante suscripción o pago puntual por partido resuelto o a través de anuncios. Cliente B2B secundario posible: clubes interesados en reducir turnos cancelados — **no investigado**. | Supuesto, sin evidencia directa. |
 | **Decisor** | El organizador del grupo suele decidir si el grupo prueba una herramienta nueva. | Patrón observado: en las 4 personas entrevistadas, uno organiza y el resto sigue su decisión. |
 | **Influenciador** | El resto del cuarteto fijo (si desconfían, no la usan) y el candidato-reemplazo (si el contacto vía plataforma es incómodo, no participa). | Inferido, no confirmado con entrevistas específicas a "reemplazos". |
 
@@ -73,6 +77,7 @@
 - Cuando quiero jugar pero no tengo grupo armado ese día, quiero encontrar jugadores disponibles de mi nivel, para no cancelar ni sustituir el pádel por otra actividad. *(Valentina)*
 - Cuando alguien nuevo se suma al partido, quiero tener certeza razonable de que va a asistir y de cómo juega (estilo, no solo categoría), para reducir la incertidumbre de aceptarlo. *(hallazgo Entrevista 4 — las dos capas de confianza)*
 
+
 ---
 
 ## 5. Ideas de solución
@@ -80,12 +85,12 @@
 ### Tres alternativas (una por enfoque)
 
 **Alternativa A — Información/Decisión: "Perfil de confiabilidad y nivel verificado"**
-- *Propuesta:* perfil liviano por jugador que combina historial de asistencia confirmada y calificación de estilo de juego hecha por pares (no solo categoría autodeclarada), visible antes de aceptar a alguien.
+- *Propuesta:* perfil liviano por jugador que combina historial de asistencia confirmada y calificación de estilo de juego hecha por pares (no solo categoría autodeclarada), visible antes de aceptar a alguien. La idea es una app que el organizador pone a la vista el partido con su información relevante (lugar, horario, nivel de juego) y luego los otros usuarios se postulan para jugar y el organizador acepta a los jugadores que quiera o les envía un link para que se unan a un grupo de WhatsApp.
 - *Valor:* le da al organizador información real para decidir, en vez de preguntar "¿qué nivel jugás?" por chat.
-- *Tecnología central:* sistema simple de perfiles + calificaciones.
+- *Tecnología central:* sistema simple de perfiles + calificaciones. Videos cortos para mostrar el nivel.
 - *Datos necesarios:* confirmaciones de asistencia, calificaciones post-partido.
 - *Riesgo principal:* arranque en frío — nadie tiene calificaciones al día 1.
-- *Prototipo:* planilla/Airtable con perfiles básicos, compartida por link de WhatsApp.
+- *Prototipo:* planilla/Airtable con perfiles básicos, compartida por link de WhatsApp. App desarrollada con IA de forma sencilla.
 
 **Alternativa B — Coordinación/Transacción: "Ampliar el pedido al círculo extendido, con confirmación integrada"**
 - *Propuesta:* cuando falta un jugador, el pedido se difunde automáticamente al círculo extendido (amigos de amigos que ya juegan con alguien del grupo, no desconocidos totales) filtrando por nivel y disponibilidad, con confirmación de asistencia incorporada en el flujo — reemplazando el ritual manual de llamada + WhatsApp detectado en la Entrevista 4.
@@ -102,6 +107,8 @@
 - *Datos necesarios:* historial de asistencia, calificaciones de nivel y estilo — **no existen todavía**.
 - *Riesgo principal:* arranque en frío más severo que en A — no hay datos históricos para entrenar ni justificar el score.
 - *Prototipo:* Wizard of Oz — una persona actuando como "agente", sugiriendo candidatos con reglas simples, antes de automatizar nada.
+
+**La idea principal es la opción A ya que creemos es la más factible y fácil de desarrollar con el mayor impacto. Los otros prototipos se pueden llegar a incluir de alguna forma en la alternativa A.
 
 ### Filtro digital (resumen)
 
