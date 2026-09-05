@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PadelMatch - Encontra tu cuarteto</title>
+  <meta name="description" content="App prototipo para conectar jugadores de padel amateur." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="experimento.css" />
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <div class="nav-logo">
+        <span class="logo-icon">&#127934;</span>
+        <span class="logo-text">PadelMatch</span>
+        <span class="logo-badge">MVP</span>
+      </div>
+      <div class="nav-tabs">
+        <button class="nav-tab active" id="tab-partidos" onclick="showView('partidos')">Partidos</button>
+        <button class="nav-tab" id="tab-perfil" onclick="showView('perfil')">Mi Perfil</button>
+        <button class="nav-tab" id="tab-publicar" onclick="showView('publicar')">+ Publicar</button>
+      </div>
+      <div class="nav-user">
+        <div class="avatar-sm" id="nav-avatar">M</div>
+        <span class="nav-username" id="nav-username">Matias</span>
+      </div>
+    </div>
+  </nav>
+  <main class="main-content">
+    <section class="view active" id="view-partidos">
+      <div class="section-header">
+        <div>
+          <h1 class="section-title">Partidos disponibles</h1>
+          <p class="section-sub">Encontra tu partido ideal o postulate como reemplazo</p>
+        </div>
+        <div class="filter-row">
+          <button class="chip active" id="chip-all" onclick="filterPartidos('all')">Todos</button>
+          <button class="chip" id="chip-busca" onclick="filterPartidos('busca')">Buscan jugador</button>
+          <button class="chip" id="chip-completo" onclick="filterPartidos('completo')">Completos</button>
+        </div>
+      </div>
+      <div class="cards-grid" id="partidos-grid"></div>
+    </section>
+    <section class="view" id="view-detalle">
+      <div class="back-bar">
+        <button class="btn-back" onclick="goBack()">&#8592; Volver</button>
+      </div>
+      <div id="detalle-content"></div>
+    </section>
+    <section class="view" id="view-perfil">
+      <div class="section-header">
+        <div>
+          <h1 class="section-title">Mi Perfil</h1>
+          <p class="section-sub">Tu carta de presentacion ante otros jugadores</p>
+        </div>
+      </div>
+      <div class="profile-card-big" id="profile-main"></div>
+    </section>
+    <section class="view" id="view-publicar">
+      <div class="section-header">
+        <div>
+          <h1 class="section-title">Publicar partido</h1>
+          <p class="section-sub">Completa los datos y encontra tu 4to jugador</p>
+        </div>
+      </div>
+      <form class="publish-form" id="publish-form" onsubmit="publicarPartido(event)">
+        <div class="form-group">
+          <label class="form-label" for="p-lugar">Lugar / Club</label>
+          <input class="form-input" id="p-lugar" type="text" placeholder="Ej: Club Nautico, Palermo" required />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="p-fecha">Fecha</label>
+            <input class="form-input" id="p-fecha" type="date" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="p-hora">Hora</label>
+            <input class="form-input" id="p-hora" type="time" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="p-nivel">Nivel buscado</label>
+          <select class="form-input" id="p-nivel" required>
+            <option value="">Selecciona un nivel</option>
+            <option value="Principiante">Principiante (7ma)</option>
+            <option value="Intermedio">Intermedio (6ta)</option>
+            <option value="Avanzado">Avanzado (5ta)</option>
+            <option value="Cualquier nivel">Cualquier nivel</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="p-desc">Descripcion (opcional)</label>
+          <textarea class="form-input form-textarea" id="p-desc" placeholder="Ej: Jugamos 1h30, somos 3 amigos, buscamos 4to..." rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Jugadores confirmados</label>
+          <div class="jugadores-confirmados">
+            <div class="jugador-slot filled">
+              <div class="avatar-sm">M</div>
+              <span>Matias (vos)</span>
+              <span class="badge-nivel nivel-avanzado">Avanzado</span>
+            </div>
+            <div class="jugador-slot filled">
+              <div class="avatar-sm" style="background:var(--accent-2)">L</div>
+              <span>Lucas</span>
+              <span class="badge-nivel nivel-intermedio">Intermedio</span>
+            </div>
+            <div class="jugador-slot filled">
+              <div class="avatar-sm" style="background:var(--accent-3)">S</div>
+              <span>Santiago</span>
+              <span class="badge-nivel nivel-avanzado">Avanzado</span>
+            </div>
+            <div class="jugador-slot empty">
+              <div class="avatar-sm empty">?</div>
+              <span>Lugar disponible</span>
+              <span class="badge-buscando">Buscando</span>
+            </div>
+          </div>
+        </div>
+        <button class="btn-primary btn-full" type="submit" id="btn-publicar">Publicar partido</button>
+      </form>
+    </section>
+    <section class="view" id="view-postulaciones">
+      <div class="back-bar">
+        <button class="btn-back" onclick="showView('partidos')">&#8592; Volver a partidos</button>
+      </div>
+      <div class="section-header">
+        <div>
+          <h1 class="section-title">Postulaciones recibidas</h1>
+          <p class="section-sub">Revisa los perfiles antes de aceptar</p>
+        </div>
+      </div>
+      <div id="postulaciones-list"></div>
+    </section>
+  </main>
+  <div class="toast" id="toast"></div>
+  <div class="modal-overlay" id="modal-overlay" onclick="closeModal()">
+    <div class="modal-card" onclick="event.stopPropagation()" id="modal-card"></div>
+  </div>
+  <script src="experimento.js"></script>
+</body>
+</html>
