@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Jugar — Encontrá tu cuarto jugador</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sand:#09100D;
+    --turf:#10B981;
+    --turf-light:#059669;
+    --lime:#CCFF00;
+    --clay:#F97316;
+    --ink:#F1F5F3;
+    --white:#131C18;
+    --line:#22332B;
+    --danger:#EF4444;
+    --subtle:#8A9E95;
+    --radius:8px;
+    --maxw:1100px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--sand); color:var(--ink); font-family:'Inter',system-ui,sans-serif; font-size:16px; line-height:1.5;}
+  h1,h2,h3,.logo-text{font-family:'Space Grotesk',sans-serif;}
+  a{color:inherit; text-decoration:none;}
+  button{font-family:inherit;}
+  :focus-visible{outline:3px solid var(--lime); outline-offset:2px;}
+
+  /* ---------- navbar ---------- */
+  .navbar{position:sticky; top:0; z-index:50; background:#0B1410; color:var(--ink); border-bottom:2px solid var(--line); backdrop-filter:blur(10px);}
+  .nav-inner{max-width:var(--maxw); margin:0 auto; padding:0.85rem 1.25rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;}
+  .nav-logo{display:flex; align-items:center; gap:0.5rem;}
+  .logo-icon{font-size:1.3rem;}
+  .logo-text{font-weight:700; font-size:1.3rem; letter-spacing:-0.01em; color:var(--ink);}
+  .logo-badge{font-size:0.65rem; font-weight:800; background:var(--lime); color:#09100D; padding:0.15rem 0.45rem; border-radius:100px;}
+  .nav-tabs{display:flex; gap:0.25rem;}
+  .nav-tab{background:none; border:none; color:var(--subtle); font-size:0.95rem; font-weight:500; padding:0.5rem 0.8rem; cursor:pointer; border-bottom:2px solid transparent; transition:all 0.15s ease;}
+  .nav-tab:hover{color:var(--ink);}
+  .nav-tab.active{color:var(--lime); border-bottom-color:var(--lime); font-weight:600;}
+  .nav-user{display:flex; align-items:center; gap:0.5rem; font-size:0.88rem; color:var(--ink);}
+
+  .avatar-circle{width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.95rem; color:#fff; flex:none;}
+  .avatar-circle.sm{width:30px; height:30px; font-size:0.8rem;}
+  .avatar-circle.lg{width:64px; height:64px; font-size:1.6rem;}
+  .avatar-circle.vacio{background:transparent; border:2px dashed var(--line); color:var(--subtle); font-weight:600;}
+
+  /* ---------- layout ---------- */
+  main{max-width:var(--maxw); margin:0 auto; padding:0 1.25rem 4rem;}
+  .view{display:none;}
+  .view.active{display:block;}
+  .section-header{display:flex; justify-content:space-between; align-items:flex-end; gap:1rem; flex-wrap:wrap; padding-top:2.25rem;}
+  .section-title{font-size:clamp(1.5rem,3.4vw,2.1rem); margin:0 0 0.3rem; font-weight:700; color:var(--ink);}
+  .section-sub{margin:0; color:var(--subtle);}
+
+  /* ---------- filters ---------- */
+  .filters{display:flex; gap:1.1rem; flex-wrap:wrap; align-items:flex-end; margin:1.5rem 0 0.5rem; padding:1rem; background:var(--white); border:1px solid var(--line); border-radius:var(--radius);}
+  .field{display:flex; flex-direction:column; gap:0.3rem;}
+  .field label{font-size:0.78rem; font-weight:600; color:var(--subtle);}
+  select, input, textarea{font-family:inherit; font-size:0.95rem; padding:0.55rem 0.65rem; border:1px solid var(--line); border-radius:var(--radius); background:#0B1410; color:var(--ink);}
+  select option{background:#0B1410; color:var(--ink);}
+  select{min-width:170px;}
+  textarea{resize:vertical; min-height:70px;}
+  .chip-group{display:flex; gap:0.4rem; flex-wrap:wrap;}
+  .chip{background:#0B1410; border:1px solid var(--line); border-radius:100px; padding:0.45rem 0.85rem; font-size:0.85rem; font-weight:600; color:var(--subtle); cursor:pointer; transition:all 0.15s ease;}
+  .chip:hover{border-color:var(--turf); color:var(--ink);}
+  .chip.active{background:var(--turf); border-color:var(--turf); color:#09100D; font-weight:700;}
+  .filters .count{margin-left:auto; align-self:center; font-size:0.85rem; color:var(--subtle);}
+
+  /* ---------- match grid ---------- */
+  .cards-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1rem; margin-top:1.5rem;}
+  .card{background:var(--white); border:1px solid var(--line); border-left:5px solid var(--turf); border-radius:var(--radius); padding:1.1rem; display:flex; flex-direction:column; gap:0.7rem; transition:transform 0.15s ease, box-shadow 0.15s ease; cursor:pointer;}
+  .card:hover{transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,0.4), 0 0 15px rgba(16,185,129,0.15);}
+  .card.nuevo{animation:resaltar 1.8s ease-out;}
+  @keyframes resaltar{0%{box-shadow:0 0 0 3px var(--lime);} 100%{box-shadow:0 0 0 0 rgba(0,0,0,0);}}
+  .card-top{display:flex; justify-content:space-between; align-items:flex-start; gap:0.5rem;}
+  .card-top .lugar{font-weight:600; font-size:0.98rem; color:var(--ink);}
+  .card-top .zona{display:block; font-size:0.78rem; color:var(--subtle); font-weight:500;}
+  .badge{font-size:0.72rem; font-weight:700; padding:0.22rem 0.55rem; border-radius:100px; white-space:nowrap;}
+  .badge.nivel-7ma{background:var(--lime); color:#09100D;}
+  .badge.nivel-6ta{background:var(--turf); color:#09100D;}
+  .badge.nivel-5ta{background:var(--clay); color:#fff;}
+  .badge.nivel-4ta{background:#0B1410; color:var(--lime); border:1px solid var(--lime);}
+  .badge-verificado{font-size:0.68rem; font-weight:700; color:var(--lime); background:#0B1410; border:1px solid var(--line); padding:0.18rem 0.5rem; border-radius:100px;}
+  .card .fecha{font-size:0.88rem; color:var(--subtle);}
+  .avatares{display:flex; gap:0.6rem; flex-wrap:wrap;}
+  .avatar-slot{display:flex; flex-direction:column; align-items:center; gap:0.3rem; width:62px;}
+  .avatar-slot span{font-size:0.68rem; text-align:center; color:var(--subtle); line-height:1.1;}
+  .card .nota{font-size:0.87rem; color:#A7B8B0; font-style:italic; border-top:1px solid var(--line); padding-top:0.55rem; margin:0;}
+  .card-footer{display:flex; justify-content:space-between; align-items:center; gap:0.6rem; flex-wrap:wrap; border-top:1px solid var(--line); padding-top:0.7rem;}
+  .organiza{font-size:0.82rem; color:var(--subtle);}
+  .organiza strong{color:var(--ink);}
+  .pill-tuyo{font-size:0.72rem; font-weight:700; background:#0B1410; border:1px solid var(--line); color:var(--lime); padding:0.2rem 0.55rem; border-radius:100px;}
+  .pill-completo{font-size:0.75rem; font-weight:700; color:var(--subtle);}
+  .pill-postulado{font-size:0.75rem; font-weight:700; color:var(--lime);}
+  .acciones{display:flex; gap:0.5rem; flex-wrap:wrap;}
+
+  .btn{border:none; border-radius:var(--radius); font-weight:700; font-size:0.85rem; padding:0.55rem 0.85rem; cursor:pointer; transition:all 0.15s ease; display:inline-flex; align-items:center; gap:0.4rem;}
+  .btn-primary{background:var(--turf); color:#09100D;}
+  .btn-primary:hover{background:var(--lime); color:#09100D;}
+  .btn-outline{background:#0B1410; color:var(--ink); border:1px solid var(--line);}
+  .btn-outline:hover{border-color:var(--turf); color:var(--lime);}
+  .btn-wa{background:#25D366; color:#09100D;}
+  .btn-wa:hover{background:#20bd5a;}
+  .btn-wa svg{width:14px; height:14px; fill:currentColor;}
+  .btn-danger{background:none; color:var(--danger); border:1px solid var(--danger);}
+  .btn-danger:hover{background:var(--danger); color:#fff;}
+  .btn-full{width:100%; justify-content:center;}
+  .btn[disabled]{opacity:0.55; cursor:not-allowed;}
+
+  .empty-state{grid-column:1/-1; text-align:center; padding:2.5rem 1rem; color:var(--subtle); border:1px dashed var(--line); border-radius:var(--radius); background:var(--white);}
+  .empty-state .btn{margin-top:0.75rem;}
+
+  /* ---------- forms ---------- */
+  .form-wrap{max-width:640px;}
+  form{display:flex; flex-direction:column; gap:1.1rem; background:var(--white); border:1px solid var(--line); border-radius:var(--radius); padding:1.5rem; margin-top:1.5rem;}
+  .row2{display:grid; grid-template-columns:1fr 1fr; gap:1rem;}
+  .field.full{width:100%;}
+  .hint{font-size:0.8rem; color:var(--subtle); margin-top:-0.6rem;}
+  .nivel-picker{display:flex; flex-wrap:wrap; gap:0.5rem;}
+  .nivel-picker input{display:none;}
+  .nivel-picker label{padding:0.5rem 0.85rem; border:1px solid var(--line); border-radius:100px; font-size:0.85rem; font-weight:600; cursor:pointer; color:var(--subtle); background:#0B1410; transition:all 0.15s ease;}
+  .nivel-picker input:checked + label{background:var(--turf); border-color:var(--turf); color:#09100D; font-weight:700;}
+  #amigos-inputs{display:flex; flex-direction:column; gap:0.6rem;}
+
+  /* ---------- detalle partido ---------- */
+  .back-bar{padding-top:1.5rem;}
+  .btn-back{background:none; border:none; color:var(--lime); font-weight:600; font-size:0.9rem; cursor:pointer; padding:0.3rem 0;}
+  .detalle-card{max-width:720px; margin-top:1rem;}
+  .detalle-top{display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; flex-wrap:wrap;}
+  .detalle-top .lugar{font-size:1.4rem; font-weight:700; font-family:'Space Grotesk',sans-serif; color:var(--ink);}
+  .detalle-top .fecha{color:var(--subtle); margin-top:0.15rem;}
+  .meta-chips{display:flex; gap:0.5rem; flex-wrap:wrap; margin:1rem 0;}
+  .meta-chip{background:#0B1410; border:1px solid var(--line); border-radius:100px; padding:0.4rem 0.8rem; font-size:0.82rem; color:var(--subtle);}
+  .detalle-desc{background:var(--white); border:1px solid var(--line); border-radius:var(--radius); padding:0.9rem; font-style:italic; color:#A7B8B0; margin-bottom:1.25rem;}
+  .subtitulo{font-size:0.95rem; font-weight:700; margin:1.25rem 0 0.6rem; color:var(--ink);}
+  .jugador-row{display:flex; align-items:center; gap:0.75rem; background:var(--white); border:1px solid var(--line); border-radius:var(--radius); padding:0.7rem 0.9rem; margin-bottom:0.55rem; flex-wrap:wrap;}
+  .jugador-row.vacio{border-style:dashed;}
+  .jugador-info{flex:1; min-width:140px;}
+  .jugador-nombre{font-weight:600; font-size:0.92rem; color:var(--ink);}
+  .jugador-stats{font-size:0.78rem; color:var(--subtle);}
+  .detalle-cta{display:flex; gap:0.6rem; flex-wrap:wrap; margin-top:1.25rem;}
+  .banner-info{background:#0B1410; border:1px solid var(--line); border-radius:var(--radius); padding:0.8rem 1rem; font-size:0.88rem; color:var(--lime); font-weight:600; width:100%;}
+
+  /* ---------- perfil ---------- */
+  .profile-panel{max-width:640px; margin-top:1.5rem; background:var(--white); border:1px solid var(--line); border-left:5px solid var(--lime); border-radius:var(--radius); padding:1.4rem;}
+  .profile-head{display:flex; gap:1rem; align-items:center; margin-bottom:1.1rem; flex-wrap:wrap;}
+  .profile-head .nombre{font-family:'Space Grotesk',sans-serif; font-size:1.3rem; font-weight:700; color:var(--ink);}
+  .profile-head .meta{display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap; margin-top:0.35rem; font-size:0.85rem; color:var(--subtle);}
+  .profile-bio{color:#A7B8B0; font-size:0.92rem; margin-bottom:1.1rem;}
+  .stats-row{display:grid; grid-template-columns:repeat(3,1fr); gap:0.7rem; margin-bottom:1.1rem;}
+  .stat-box{background:#0B1410; border:1px solid var(--line); border-radius:var(--radius); padding:0.8rem; text-align:center;}
+  .stat-val{font-family:'Space Grotesk',sans-serif; font-size:1.3rem; font-weight:700; color:var(--lime);}
+  .stat-lbl{font-size:0.72rem; color:var(--subtle); margin-top:0.15rem;}
+  .video-placeholder{border:2px dashed var(--line); border-radius:var(--radius); padding:1rem; text-align:center; color:var(--subtle); font-size:0.85rem; cursor:pointer; margin-bottom:1.1rem; transition:border-color 0.15s ease;}
+  .video-placeholder:hover{border-color:var(--lime); color:var(--lime);}
+  .video-placeholder .icon{font-size:1.4rem; display:block; margin-bottom:0.3rem;}
+  .calificaciones{margin-bottom:1.1rem;}
+  .calificacion-row{display:flex; justify-content:space-between; align-items:center; padding:0.4rem 0; border-bottom:1px solid var(--line); font-size:0.88rem; color:var(--ink);}
+  .calificacion-row:last-child{border-bottom:none;}
+  .stars{color:var(--lime); letter-spacing:1px;}
+  .historial-row{display:flex; justify-content:space-between; align-items:center; padding:0.45rem 0; border-bottom:1px solid var(--line); font-size:0.85rem; gap:0.5rem; flex-wrap:wrap; color:var(--ink);}
+  .historial-row:last-child{border-bottom:none;}
+  .historial-fecha{color:var(--subtle);}
+  .historial-asistio{color:var(--lime); font-weight:600; font-size:0.78rem;}
+  .historial-no{color:var(--danger); font-weight:600; font-size:0.78rem;}
+
+  /* ---------- modal ---------- */
+  .modal-overlay{display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:100; align-items:center; justify-content:center; padding:1rem; backdrop-filter:blur(4px);}
+  .modal-overlay.show{display:flex;}
+  .modal-card{background:var(--white); border:1px solid var(--line); border-radius:var(--radius); padding:1.5rem; max-width:460px; width:100%; max-height:85vh; overflow-y:auto; color:var(--ink);}
+  .modal-card h3{margin:0 0 0.3rem; font-size:1.25rem; color:var(--ink);}
+  .modal-card .modal-sub{margin:0 0 1rem; color:var(--subtle); font-size:0.9rem;}
+  .modal-close-row{display:flex; justify-content:flex-end; margin-top:1rem; gap:0.5rem; flex-wrap:wrap;}
+  .postulante-item{border:1px solid var(--line); background:#0B1410; border-radius:var(--radius); padding:0.9rem; margin-bottom:0.8rem; display:flex; flex-direction:column; gap:0.5rem;}
+  .postulante-top{display:flex; justify-content:space-between; align-items:center; gap:0.5rem;}
+  .postulante-mensaje{font-size:0.88rem; font-style:italic; color:#A7B8B0;}
+
+  /* ---------- toast ---------- */
+  .toast{position:fixed; bottom:1.5rem; left:50%; transform:translateX(-50%) translateY(20px); background:var(--lime); color:#09100D; padding:0.75rem 1.2rem; border-radius:100px; font-size:0.88rem; font-weight:800; opacity:0; pointer-events:none; transition:all 0.25s ease; z-index:200;}
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+  footer{text-align:center; padding:1.5rem 1.25rem 2.5rem; color:var(--subtle); font-size:0.82rem;}
+
+  @media (max-width:640px){
+    .row2{grid-template-columns:1fr;}
+    .filters .count{margin-left:0; width:100%;}
+    .stats-row{grid-template-columns:1fr 1fr;}
+  }
+  @media (prefers-reduced-motion: reduce){*{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <span class="logo-icon">🎾</span>
+      <span class="logo-text">A Jugar</span>
+      <span class="logo-badge">MVP</span>
+    </div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" data-view="partidos">Partidos</button>
+      <button class="nav-tab" data-view="publicar">+ Publicar</button>
+      <button class="nav-tab" data-view="perfil">Mi perfil</button>
+    </div>
+    <div class="nav-user">
+      <div class="avatar-circle sm" id="nav-avatar" style="background:var(--turf-light)">V</div>
+      <span id="nav-username">Valentina</span>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ===================== PARTIDOS ===================== -->
+  <section class="view active" id="view-partidos">
+    <div class="section-header">
+      <div>
+        <h1 class="section-title">Partidos disponibles</h1>
+        <p class="section-sub">Encontrá un cuarteto que te cierre por zona y nivel, o postulate para el lugar que falta.</p>
+      </div>
+    </div>
+
+    <div class="filters">
+      <div class="field"><label for="filtro-zona">Zona</label><select id="filtro-zona"></select></div>
+      <div class="field"><label>Nivel</label><div class="chip-group" id="filtro-nivel"></div></div>
+      <div class="field">
+        <label>Estado</label>
+        <div class="chip-group" id="filtro-estado">
+          <button class="chip active" data-estado="">Todos</button>
+          <button class="chip" data-estado="abierto">Buscan jugador</button>
+          <button class="chip" data-estado="completo">Completos</button>
+        </div>
+      </div>
+      <span class="count" id="contador"></span>
+    </div>
+
+    <div class="cards-grid" id="grid-partidos"></div>
+  </section>
+
+  <!-- ===================== DETALLE ===================== -->
+  <section class="view" id="view-detalle">
+    <div class="back-bar"><button class="btn-back" id="btn-volver">&larr; Volver a partidos</button></div>
+    <div id="detalle-content"></div>
+  </section>
+
+  <!-- ===================== PUBLICAR ===================== -->
+  <section class="view" id="view-publicar">
+    <div class="section-header">
+      <div>
+        <h1 class="section-title">Publicar partido</h1>
+        <p class="section-sub">Completá los datos y encontrá los jugadores que te faltan para el cuarteto.</p>
+      </div>
+    </div>
+    <div class="form-wrap">
+      <form id="form-publicar">
+        <div class="row2">
+          <div class="field"><label for="pu-lugar">Lugar o club</label><input id="pu-lugar" type="text" placeholder="Ej: Club Náutico, Palermo" required></div>
+          <div class="field"><label for="pu-zona">Zona</label><select id="pu-zona" required></select></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="pu-fecha">Fecha</label><input id="pu-fecha" type="date" required></div>
+          <div class="field"><label for="pu-hora">Hora</label><input id="pu-hora" type="time" required></div>
+        </div>
+        <div class="field full"><label>Nivel del grupo</label><div class="nivel-picker" id="pu-nivel-picker"></div></div>
+        <div class="field full">
+          <label for="pu-cupos">Jugadores que ya tenés confirmados (contándote a vos)</label>
+          <select id="pu-cupos">
+            <option value="1">Vos solo/a — buscás 3</option>
+            <option value="2">Vos + 1 amigo/a — buscás 2</option>
+            <option value="3" selected>Vos + 2 amigos/as — buscás 1</option>
+          </select>
+        </div>
+        <div class="field full" id="amigos-wrap"><label>Nombre de tus compañeros ya confirmados</label><div id="amigos-inputs"></div></div>
+        <div class="field full"><label for="pu-desc">Descripción (opcional)</label><textarea id="pu-desc" placeholder="Ej: Jugamos 1h30, somos buena onda, después quedamos a tomar algo."></textarea></div>
+        <div class="field full"><label for="pu-whatsapp">Tu WhatsApp (para coordinar una vez armado el equipo)</label><input id="pu-whatsapp" type="tel" placeholder="Ej: 5491133445566" required></div>
+        <p class="hint">Código de país + área + número, sin espacios ni el "+". Ej: Argentina 54 9 11 xxxxxxx.</p>
+        <button type="submit" class="btn btn-primary btn-full">Publicar partido</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===================== PERFIL ===================== -->
+  <section class="view" id="view-perfil">
+    <div class="section-header">
+      <div>
+        <h1 class="section-title">Mi perfil</h1>
+        <p class="section-sub">Tu carta de presentación ante los organizadores cuando te postulás.</p>
+      </div>
+    </div>
+    <div class="form-wrap">
+      <form id="form-perfil">
+        <div class="row2">
+          <div class="field"><label for="pe-nombre">Nombre</label><input id="pe-nombre" type="text" required></div>
+          <div class="field"><label for="pe-zona">Tu zona habitual</label><select id="pe-zona" required></select></div>
+        </div>
+        <div class="field full"><label>Tu nivel</label><div class="nivel-picker" id="pe-nivel-picker"></div></div>
+        <div class="field full"><label for="pe-whatsapp">Tu WhatsApp</label><input id="pe-whatsapp" type="tel" required></div>
+        <div class="field full"><label for="pe-bio">Contá algo de vos como jugador/a</label><textarea id="pe-bio" maxlength="200"></textarea></div>
+        <button type="submit" class="btn btn-primary btn-full">Guardar perfil</button>
+      </form>
+    </div>
+    <div class="profile-panel" id="profile-panel"></div>
+  </section>
+
+</main>
+
+<footer>A Jugar — prototipo funcional. Los partidos, postulaciones y el perfil se guardan solo mientras esta pestaña está abierta.</footer>
+
+<div class="toast" id="toast"></div>
+<div class="modal-overlay" id="modal-overlay"><div class="modal-card" id="modal-card"></div></div>
+
+<script>
+(function(){
+
+  var ZONAS = ["Pilar","Palermo","Nordelta","San Isidro","Belgrano","Tigre","La Plata","Caballito","Villa Urquiza","Vicente López"];
+
+  var NIVELES = [
+    {id:"7ma", label:"Principiante (7ma)"},
+    {id:"6ta", label:"Intermedio (6ta)"},
+    {id:"5ta", label:"Avanzado (5ta)"},
+    {id:"4ta", label:"Competición (4ta)"}
+  ];
+
+  var COLORES = ["#1F5D45","#C4592E","#3F8367","#1A2420","#7c4dff","#ff6d00","#00838f"];
+
+  // ---------- registro de jugadores (id -> datos base) ----------
+  var JUGADORES = {
+    1:{nombre:"Valentina", zona:"Pilar", nivel:"6ta", whatsapp:"5491133445566", bio:"Juego hace 2 años, prefiero el revés, disponible tardes entre semana."},
+    2:{nombre:"Martín", zona:"Pilar", nivel:"6ta", whatsapp:"5491100000002"},
+    3:{nombre:"Julia", zona:"Pilar", nivel:"6ta", whatsapp:"5491100011122"},
+    4:{nombre:"Ezequiel", zona:"Nordelta", nivel:"7ma", whatsapp:"5491100022233"},
+    5:{nombre:"Nicolás", zona:"Palermo", nivel:"5ta", whatsapp:"5491144556677"},
+    6:{nombre:"Bruno", zona:"Palermo", nivel:"5ta", whatsapp:"5491100000006"},
+    7:{nombre:"Caro", zona:"Palermo", nivel:"5ta", whatsapp:"5491100000007"},
+    8:{nombre:"Lucas", zona:"Nordelta", nivel:"7ma", whatsapp:"5491122334455"},
+    9:{nombre:"Fede", zona:"Nordelta", nivel:"7ma", whatsapp:"5491100000009"},
+    10:{nombre:"Sol", zona:"Nordelta", nivel:"7ma", whatsapp:"5491100000010"},
+    11:{nombre:"Carla", zona:"San Isidro", nivel:"6ta", whatsapp:"5491155667788"},
+    12:{nombre:"Nico", zona:"San Isidro", nivel:"6ta", whatsapp:"5491100000012"},
+    13:{nombre:"Vale", zona:"San Isidro", nivel:"5ta", whatsapp:"5491100000013"},
+    14:{nombre:"Sole", zona:"Tigre", nivel:"6ta", whatsapp:"5491100000014"},
+    15:{nombre:"Fran", zona:"Tigre", nivel:"6ta", whatsapp:"5491100000015"},
+    16:{nombre:"Denis", zona:"Tigre", nivel:"6ta", whatsapp:"5491100000016"},
+    17:{nombre:"Rocío", zona:"Caballito", nivel:"4ta", whatsapp:"5491199001122"},
+    18:{nombre:"Nacho", zona:"Caballito", nivel:"4ta", whatsapp:"5491100000018"},
+    19:{nombre:"Meli", zona:"Caballito", nivel:"4ta", whatsapp:"5491100000019"},
+    20:{nombre:"Tomi", zona:"Caballito", nivel:"4ta", whatsapp:"5491100000020"}
+  };
+  var nextJugadorId = 21;
+
+  var partidos = [
+    {id:1, zona:"Palermo", lugar:"Tequila Padel", fecha:"2026-09-13", hora:"10:00", nivel:"5ta",
+      descripcion:"Nivel alto, después solemos quedarnos a comer algo.",
+      organizadorId:5, jugadoresIds:[5,6,7], maxJugadores:4, postulaciones:[], yaPostulado:false},
+
+    {id:2, zona:"Pilar", lugar:"Club Pilar Padel", fecha:"2026-09-12", hora:"19:00", nivel:"6ta",
+      descripcion:"Buscamos pareja mixta, buena onda.",
+      organizadorId:1, jugadoresIds:[1,2], maxJugadores:4,
+      postulaciones:[
+        {jugadorId:3, mensaje:"¡Hola! Justo ando buscando partido para ese horario, juego hace 3 años."},
+        {jugadorId:4, mensaje:"Recién arranco pero tengo muchas ganas de sumar partidos, ¿les sirve?"}
+      ], yaPostulado:false},
+
+    {id:3, zona:"Nordelta", lugar:"Nordelta Padel Center", fecha:"2026-09-14", hora:"17:30", nivel:"7ma",
+      descripcion:"Primeras veces bienvenidas, se re-explica todo.",
+      organizadorId:8, jugadoresIds:[8,9,10], maxJugadores:4, postulaciones:[], yaPostulado:false},
+
+    {id:4, zona:"San Isidro", lugar:"Le Parc Padel", fecha:"2026-09-11", hora:"20:00", nivel:"6ta",
+      descripcion:"",
+      organizadorId:11, jugadoresIds:[11,12,13], maxJugadores:4, postulaciones:[], yaPostulado:false},
+
+    {id:5, zona:"Tigre", lugar:"Tigre Padel", fecha:"2026-09-13", hora:"21:00", nivel:"6ta",
+      descripcion:"Ya estamos los 4, gracias por el interés.",
+      organizadorId:1, jugadoresIds:[1,14,15,16], maxJugadores:4, postulaciones:[], yaPostulado:false},
+
+    {id:6, zona:"Caballito", lugar:"Caballito Padel", fecha:"2026-09-14", hora:"11:00", nivel:"4ta",
+      descripcion:"",
+      organizadorId:17, jugadoresIds:[17,18,19,20], maxJugadores:4, postulaciones:[], yaPostulado:false}
+  ];
+  var nextPartidoId = 7;
+  var ultimoAgregadoId = null;
+  var vistaAnterior = "partidos";
+
+  // ---------- helpers ----------
+  function nivelLabel(id){ var n = NIVELES.filter(function(x){return x.id===id;})[0]; return n ? n.label : id; }
+  function inicial(nombre){ return (nombre||"?").trim().charAt(0).toUpperCase(); }
+  function colorFor(id){ return COLORES[id % COLORES.length]; }
+  function cuposLibres(m){ return m.maxJugadores - m.jugadoresIds.length; }
+  function esTuyo(m){ return m.organizadorId === 1; }
+
+  function estrellas(n){
+    var llenas = ""; for(var i=0;i<n;i++) llenas += "★";
+    var vacias = ""; for(var j=0;j<(5-n);j++) vacias += "☆";
+    return llenas + vacias;
+  }
+
+  // stats generadas de forma determinística por id (simulan un historial real sin tener que escribirlo a mano)
+  var LUGARES_HIST = ["Club Náutico","Cenard","Club Atlético","River Paddle","Belgrano Paddle","Urquiza Paddle"];
+  var MESES_HIST = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+  function clampStars(n){ return Math.max(3, Math.min(5, n)); }
+  function generarStats(id){
+    var asistencia = 78 + (id*7) % 22;
+    var partidosJugados = 6 + (id*13) % 56;
+    var base = 3 + (id % 3);
+    var calificaciones = [
+      {label:"Estilo de juego", stars: clampStars(base)},
+      {label:"Puntualidad", stars: clampStars(base + (id % 2))},
+      {label:"Fair play", stars: clampStars(base + ((id+1) % 2))}
+    ];
+    var historial = [];
+    for(var i=0;i<3;i++){
+      var diaBase = 28 - i*7 - (id % 4);
+      historial.push({
+        lugar: LUGARES_HIST[(id+i) % LUGARES_HIST.length],
+        fecha: (diaBase > 0 ? diaBase : diaBase + 28) + " " + MESES_HIST[(8 - i + 12) % 12],
+        asistio: (id + i) % 5 !== 0
+      });
+    }
+    var rating = (calificaciones.reduce(function(a,c){return a+c.stars;},0) / calificaciones.length);
+    return {asistencia:asistencia, partidosJugados:partidosJugados, calificaciones:calificaciones, historial:historial, rating:rating, verificado: asistencia >= 90};
+  }
+
+  function getJugador(id){
+    var base = JUGADORES[id] || {nombre:"Jugador", zona:"", nivel:"6ta"};
+    var stats = generarStats(id);
+    return Object.assign({id:id}, base, stats);
+  }
+
+  function fechaLegible(iso, hora){
+    var d = new Date(iso + "T" + hora);
+    var dias = ["dom","lun","mar","mié","jue","vie","sáb"];
+    var meses = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+    return dias[d.getDay()] + " " + d.getDate() + " " + meses[d.getMonth()] + " · " + hora + "hs";
+  }
+
+  function waLink(numero, mensaje){
+    var limpio = (numero||"").replace(/[^0-9]/g,"");
+    return "https://wa.me/" + limpio + "?text=" + encodeURIComponent(mensaje);
+  }
+  function waLinkGenerico(mensaje){
+    return "https://api.whatsapp.com/send?text=" + encodeURIComponent(mensaje);
+  }
+  var waIcon = '<svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h0a7.94 7.94 0 0 0 5.55-13.58ZM12.05 18.4h0a6.55 6.55 0 0 1-3.35-.92l-.24-.14-2.5.66.67-2.43-.16-.25a6.6 6.6 0 1 1 5.58 3.08Zm3.6-4.94c-.2-.1-1.17-.58-1.35-.64s-.31-.1-.44.1-.51.64-.62.77-.23.15-.42.05a5.4 5.4 0 0 1-1.6-.98 6 6 0 0 1-1.1-1.37c-.12-.2 0-.3.09-.4s.2-.23.29-.35a1.3 1.3 0 0 0 .2-.33.37.37 0 0 0 0-.35c0-.1-.44-1.06-.6-1.45s-.32-.33-.44-.33h-.38a.72.72 0 0 0-.52.24 2.2 2.2 0 0 0-.68 1.63 3.8 3.8 0 0 0 .8 2.02 8.7 8.7 0 0 0 3.33 2.94c.46.2.82.32 1.1.4.46.15.88.13 1.21.08a2.03 2.03 0 0 0 1.33-.94 1.65 1.65 0 0 0 .11-.94c-.05-.09-.18-.14-.38-.24Z"/></svg>';
+
+  // ---------- selects / chips ----------
+  function fillZonaSelect(select, incluirTodas){
+    select.innerHTML = "";
+    if(incluirTodas){ var o0=document.createElement("option"); o0.value=""; o0.textContent="Todas las zonas"; select.appendChild(o0); }
+    ZONAS.forEach(function(z){ var o=document.createElement("option"); o.value=z; o.textContent=z; select.appendChild(o); });
+  }
+  function buildNivelChips(container){
+    container.innerHTML = '<button class="chip active" data-nivel="">Todos</button>';
+    NIVELES.forEach(function(n){ var b=document.createElement("button"); b.className="chip"; b.dataset.nivel=n.id; b.textContent=n.label; container.appendChild(b); });
+  }
+  function buildNivelPicker(container, name, preselect){
+    container.innerHTML = "";
+    NIVELES.forEach(function(n){
+      var id = name+"-"+n.id;
+      var input = document.createElement("input");
+      input.type="radio"; input.name=name; input.id=id; input.value=n.id;
+      if(n.id===preselect) input.checked = true;
+      var label = document.createElement("label");
+      label.setAttribute("for", id); label.textContent = n.label;
+      container.appendChild(input); container.appendChild(label);
+    });
+  }
+
+  var filtroZona = document.getElementById("filtro-zona");
+  var filtroNivelEl = document.getElementById("filtro-nivel");
+  var filtroEstadoEl = document.getElementById("filtro-estado");
+  var estadoActivo = "";
+
+  fillZonaSelect(filtroZona, true);
+  buildNivelChips(filtroNivelEl);
+  fillZonaSelect(document.getElementById("pu-zona"), false);
+  fillZonaSelect(document.getElementById("pe-zona"), false);
+  buildNivelPicker(document.getElementById("pu-nivel-picker"), "pu-nivel", "6ta");
+  buildNivelPicker(document.getElementById("pe-nivel-picker"), "pe-nivel", JUGADORES[1].nivel);
+
+  filtroZona.addEventListener("change", renderGrid);
+  filtroNivelEl.addEventListener("click", function(e){
+    var b = e.target.closest(".chip"); if(!b) return;
+    Array.prototype.forEach.call(filtroNivelEl.children, function(c){c.classList.remove("active");});
+    b.classList.add("active"); renderGrid();
+  });
+  filtroEstadoEl.addEventListener("click", function(e){
+    var b = e.target.closest(".chip"); if(!b) return;
+    Array.prototype.forEach.call(filtroEstadoEl.children, function(c){c.classList.remove("active");});
+    b.classList.add("active"); estadoActivo = b.dataset.estado; renderGrid();
+  });
+
+  // ---------- render grid ----------
+  function renderGrid(){
+    var grid = document.getElementById("grid-partidos");
+    var zona = filtroZona.value;
+    var nivelBtn = filtroNivelEl.querySelector(".chip.active");
+    var nivel = nivelBtn ? nivelBtn.dataset.nivel : "";
+
+    var lista = partidos.filter(function(p){
+      var pasaZona = (zona==="" || p.zona===zona);
+      var pasaNivel = (nivel==="" || p.nivel===nivel);
+      var libres = cuposLibres(p);
+      var pasaEstado = (estadoActivo==="" || (estadoActivo==="abierto" && libres>0) || (estadoActivo==="completo" && libres===0));
+      return pasaZona && pasaNivel && pasaEstado;
+    });
+    lista.sort(function(a,b){ return (a.fecha+a.hora).localeCompare(b.fecha+b.hora); });
+
+    document.getElementById("contador").textContent = lista.length + (lista.length===1 ? " partido encontrado" : " partidos encontrados");
+    grid.innerHTML = "";
+
+    if(lista.length===0){
+      grid.innerHTML = '<div class="empty-state">No hay partidos con este filtro por ahora.<br>Probá otra zona, nivel o estado, o publicá el tuyo.' +
+        '<br><button type="button" class="btn btn-primary" id="btn-ir-publicar">Publicar un partido</button></div>';
+      document.getElementById("btn-ir-publicar").addEventListener("click", function(){ switchView("publicar"); });
+      return;
+    }
+
+    lista.forEach(function(p){
+      var card = document.createElement("article");
+      card.className = "card" + (p.id===ultimoAgregadoId ? " nuevo" : "");
+      card.dataset.id = p.id;
+
+      var libres = cuposLibres(p);
+      var avataresHtml = "";
+      for(var i=0;i<p.maxJugadores;i++){
+        if(p.jugadoresIds[i] !== undefined){
+          var j = getJugador(p.jugadoresIds[i]);
+          avataresHtml += '<div class="avatar-slot"><div class="avatar-circle" style="background:'+colorFor(j.id)+'">'+inicial(j.nombre)+'</div><span>'+j.nombre+(j.id===1?" (vos)":"")+'</span></div>';
+        } else {
+          avataresHtml += '<div class="avatar-slot"><div class="avatar-circle vacio">+</div><span>Buscando</span></div>';
+        }
+      }
+
+      var org = getJugador(p.organizadorId);
+      var mensajeWa = "Hola "+org.nombre+"! Vi tu partido de pádel en "+p.zona+" ("+fechaLegible(p.fecha,p.hora)+") en A Jugar.";
+
+      var footerLeft = esTuyo(p) ? '<span class="pill-tuyo">Tu partido</span>' : '<span class="organiza">Organiza: <strong>'+org.nombre+'</strong></span>';
+
+      var footerRight = "";
+      if(esTuyo(p)){
+        footerRight = libres>0
+          ? '<div class="acciones"><button class="btn btn-primary" data-action="ver-postulaciones" data-id="'+p.id+'">Ver postulaciones ('+p.postulaciones.length+')</button></div>'
+          : '<span class="pill-completo">Grupo completo ✅</span>';
+      } else if(libres>0){
+        footerRight = p.yaPostulado
+          ? '<span class="pill-postulado">Ya te postulaste ✓</span>'
+          : '<div class="acciones"><button class="btn btn-primary" data-action="postularme" data-id="'+p.id+'">Postularme</button>'+
+            '<a class="btn btn-wa" data-action="wa" target="_blank" rel="noopener" href="'+waLink(org.whatsapp, mensajeWa)+'">'+waIcon+'</a></div>';
+      } else {
+        footerRight = '<span class="pill-completo">Completo</span>';
+      }
+
+      card.innerHTML =
+        '<div class="card-top">'+
+          '<div><span class="lugar">'+p.lugar+'</span><span class="zona">'+p.zona+'</span></div>'+
+          '<span class="badge nivel-'+p.nivel+'">'+nivelLabel(p.nivel)+'</span>'+
+        '</div>'+
+        '<div class="fecha">'+fechaLegible(p.fecha,p.hora)+'</div>'+
+        '<div class="avatares">'+avataresHtml+'</div>'+
+        (p.descripcion ? '<p class="nota">'+p.descripcion+'</p>' : '')+
+        '<div class="card-footer">'+footerLeft+footerRight+'</div>';
+
+      grid.appendChild(card);
+    });
+  }
+
+  document.getElementById("grid-partidos").addEventListener("click", function(e){
+    var actionEl = e.target.closest("[data-action]");
+    if(actionEl){
+      var id = parseInt(actionEl.dataset.id,10);
+      if(actionEl.dataset.action==="postularme") abrirModalPostularme(id);
+      if(actionEl.dataset.action==="ver-postulaciones") abrirModalPostulaciones(id);
+      return;
+    }
+    var card = e.target.closest(".card");
+    if(card) verDetalle(parseInt(card.dataset.id,10));
+  });
+
+  // ---------- vista detalle ----------
+  function verDetalle(id){
+    var m = partidos.filter(function(p){return p.id===id;})[0];
+    if(!m) return;
+    var libres = cuposLibres(m);
+    var org = getJugador(m.organizadorId);
+
+    var jugadoresHtml = "";
+    m.jugadoresIds.forEach(function(jid){
+      var j = getJugador(jid);
+      jugadoresHtml +=
+        '<div class="jugador-row">'+
+          '<div class="avatar-circle" style="background:'+colorFor(j.id)+'">'+inicial(j.nombre)+'</div>'+
+          '<div class="jugador-info"><div class="jugador-nombre">'+j.nombre+(j.id===1?" (vos)":"")+'</div>'+
+          '<div class="jugador-stats">'+j.zona+' · '+j.asistencia+'% asistencia · '+j.partidosJugados+' partidos</div></div>'+
+          '<span class="badge nivel-'+j.nivel+'">'+nivelLabel(j.nivel)+'</span>'+
+          '<button class="btn btn-outline" data-verperfil="'+j.id+'">Ver perfil</button>'+
+        '</div>';
+    });
+    for(var i=0;i<libres;i++){
+      jugadoresHtml += '<div class="jugador-row vacio"><div class="avatar-circle vacio">+</div>'+
+        '<div class="jugador-info"><div class="jugador-nombre" style="color:#8a9189">Lugar disponible</div></div>'+
+        '<span class="pill-postulado">Buscando '+nivelLabel(m.nivel)+'</span></div>';
+    }
+
+    var ctaHtml = "";
+    if(esTuyo(m)){
+      if(m.postulaciones.length>0){
+        ctaHtml += '<button class="btn btn-primary" data-action="ver-postulaciones" data-id="'+m.id+'">Revisar postulaciones ('+m.postulaciones.length+')</button>';
+      } else if(libres>0){
+        ctaHtml += '<div class="banner-info">Todavía no tenés postulaciones. Compartilo para que más gente lo vea.</div>';
+      }
+    } else if(libres>0){
+      ctaHtml += m.yaPostulado
+        ? '<div class="banner-info">✓ Ya te postulaste — el organizador va a revisar tu perfil.</div>'
+        : '<button class="btn btn-primary" data-action="postularme" data-id="'+m.id+'">Postularme a este partido</button>';
+      ctaHtml += '<a class="btn btn-wa" target="_blank" rel="noopener" href="'+waLink(org.whatsapp, "Hola "+org.nombre+"! Vi tu partido en A Jugar.")+'">'+waIcon+' Escribirle al organizador</a>';
+    }
+    var mensajeCompartir = "🎾 Partido en "+m.lugar+" ("+m.zona+") el "+fechaLegible(m.fecha,m.hora)+". Nivel: "+nivelLabel(m.nivel)+". Falta"+(libres>1?"n ":" ")+libres+" lugar"+(libres>1?"es":"")+". Buscalo en A Jugar.";
+    ctaHtml += '<a class="btn btn-outline" target="_blank" rel="noopener" href="'+waLinkGenerico(mensajeCompartir)+'">'+waIcon+' Compartir por WhatsApp</a>';
+
+    document.getElementById("detalle-content").innerHTML =
+      '<div class="detalle-card">'+
+        '<div class="detalle-top">'+
+          '<div><div class="lugar">'+m.lugar+'</div><div class="fecha">'+fechaLegible(m.fecha,m.hora)+'</div></div>'+
+          '<span class="badge nivel-'+m.nivel+'">'+nivelLabel(m.nivel)+'</span>'+
+        '</div>'+
+        '<div class="meta-chips">'+
+          '<span class="meta-chip">📍 '+m.zona+'</span>'+
+          '<span class="meta-chip">👥 '+m.jugadoresIds.length+'/'+m.maxJugadores+' jugadores</span>'+
+          (esTuyo(m) ? '<span class="meta-chip">Tu partido</span>' : '<span class="meta-chip">Organiza: '+org.nombre+'</span>')+
+        '</div>'+
+        (m.descripcion ? '<div class="detalle-desc">'+m.descripcion+'</div>' : '')+
+        '<div class="subtitulo">Jugadores del partido</div>'+
+        jugadoresHtml+
+        '<div class="detalle-cta">'+ctaHtml+'</div>'+
+      '</div>';
+
+    vistaAnterior = "partidos";
+    switchView("detalle");
+  }
+
+  document.getElementById("detalle-content").addEventListener("click", function(e){
+    var actionEl = e.target.closest("[data-action]");
+    if(actionEl){
+      var id = parseInt(actionEl.dataset.id,10);
+      if(actionEl.dataset.action==="postularme") abrirModalPostularme(id);
+      if(actionEl.dataset.action==="ver-postulaciones") abrirModalPostulaciones(id);
+      return;
+    }
+    var perfilEl = e.target.closest("[data-verperfil]");
+    if(perfilEl) abrirModalPerfil(parseInt(perfilEl.dataset.verperfil,10));
+  });
+  document.getElementById("btn-volver").addEventListener("click", function(){ switchView("partidos"); });
+
+  // ---------- tabs / vistas ----------
+  function switchView(name){
+    document.querySelectorAll(".view").forEach(function(v){v.classList.remove("active");});
+    document.querySelectorAll(".nav-tab").forEach(function(b){b.classList.remove("active");});
+    document.getElementById("view-"+name).classList.add("active");
+    var tab = document.querySelector('.nav-tab[data-view="'+name+'"]');
+    if(tab) tab.classList.add("active");
+    window.scrollTo({top:0, behavior:"smooth"});
+  }
+  document.querySelectorAll(".nav-tab").forEach(function(b){ b.addEventListener("click", function(){ switchView(b.dataset.view); }); });
+
+  // ---------- toast ----------
+  var toastTimer = null;
+  function toast(msg){
+    var t = document.getElementById("toast");
+    t.textContent = msg; t.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ t.classList.remove("show"); }, 2800);
+  }
+
+  // ---------- modal ----------
+  var overlay = document.getElementById("modal-overlay");
+  var modalCard = document.getElementById("modal-card");
+  function closeModal(){ overlay.classList.remove("show"); modalCard.innerHTML = ""; }
+  overlay.addEventListener("click", function(e){ if(e.target===overlay) closeModal(); });
+
+  function statsBlockHtml(j, incluirHistorial){
+    var html =
+      '<div class="stats-row">'+
+        '<div class="stat-box"><div class="stat-val">'+j.asistencia+'%</div><div class="stat-lbl">Asistencia</div></div>'+
+        '<div class="stat-box"><div class="stat-val">'+j.partidosJugados+'</div><div class="stat-lbl">Partidos</div></div>'+
+        '<div class="stat-box"><div class="stat-val">★ '+j.rating.toFixed(1)+'</div><div class="stat-lbl">Rating</div></div>'+
+      '</div>'+
+      '<div class="video-placeholder" data-video="1"><span class="icon">🎥</span>Video de nivel — próximamente en la versión completa</div>'+
+      '<div class="calificaciones">'+
+        j.calificaciones.map(function(c){
+          return '<div class="calificacion-row"><span>'+c.label+'</span><span class="stars">'+estrellas(c.stars)+'</span></div>';
+        }).join("")+
+      '</div>';
+    if(incluirHistorial){
+      html += '<div class="subtitulo" style="margin-top:0">Historial de partidos</div><div>'+
+        j.historial.map(function(h){
+          return '<div class="historial-row"><span>'+h.lugar+'</span><span class="historial-fecha">'+h.fecha+'</span><span class="'+(h.asistio?"historial-asistio":"historial-no")+'">'+(h.asistio?"Asistió":"No asistió")+'</span></div>';
+        }).join("")+
+      '</div>';
+    }
+    return html;
+  }
+
+  function abrirModalPerfil(id){
+    var j = getJugador(id);
+    modalCard.innerHTML =
+      '<div class="profile-head">'+
+        '<div class="avatar-circle lg" style="background:'+colorFor(j.id)+'">'+inicial(j.nombre)+'</div>'+
+        '<div><div class="nombre">'+j.nombre+(j.id===1?" (vos)":"")+'</div>'+
+        '<div class="meta"><span class="badge nivel-'+j.nivel+'">'+nivelLabel(j.nivel)+'</span><span>'+j.zona+'</span>'+
+        (j.verificado ? '<span class="badge-verificado">✓ Verificado</span>' : '')+'</div></div>'+
+      '</div>'+
+      (j.bio ? '<p class="profile-bio">'+j.bio+'</p>' : '')+
+      statsBlockHtml(j, false)+
+      '<div class="modal-close-row"><button class="btn btn-primary" id="modal-cerrar-perfil">Cerrar</button></div>';
+    overlay.classList.add("show");
+    document.getElementById("modal-cerrar-perfil").addEventListener("click", closeModal);
+    var vid = modalCard.querySelector("[data-video]");
+    if(vid) vid.addEventListener("click", function(){ toast("Función disponible en la app completa 🎥"); });
+  }
+
+  function abrirModalPostularme(id){
+    var m = partidos.filter(function(p){return p.id===id;})[0];
+    if(!m) return;
+    var yo = getJugador(1);
+    var org = getJugador(m.organizadorId);
+    modalCard.innerHTML =
+      '<h3>Postularte a este partido</h3>'+
+      '<p class="modal-sub">'+m.lugar+' · '+m.zona+' · '+fechaLegible(m.fecha,m.hora)+'</p>'+
+      '<div class="field full"><label>Van a ver tu perfil</label>'+
+        '<div class="postulante-item"><div class="postulante-top"><strong>'+yo.nombre+'</strong><span class="badge nivel-'+yo.nivel+'">'+nivelLabel(yo.nivel)+'</span></div><span>'+yo.zona+' · '+yo.asistencia+'% asistencia</span></div>'+
+      '</div>'+
+      '<div class="field full"><label for="modal-mensaje">Mensaje para el organizador (opcional)</label>'+
+        '<textarea id="modal-mensaje" placeholder="Ej: Me copa el horario, hace un año que juego."></textarea></div>'+
+      '<p class="hint">Si te acepta, se libera el lugar para vos. También podés escribirle directo por WhatsApp.</p>'+
+      '<div class="modal-close-row">'+
+        '<a class="btn btn-wa" target="_blank" rel="noopener" href="'+waLink(org.whatsapp,"Hola! Vi tu partido en A Jugar y me quiero postular.")+'">'+waIcon+' WhatsApp</a>'+
+        '<button class="btn btn-outline" id="modal-cancelar">Cancelar</button>'+
+        '<button class="btn btn-primary" id="modal-enviar">Enviar postulación</button>'+
+      '</div>';
+    overlay.classList.add("show");
+    document.getElementById("modal-cancelar").addEventListener("click", closeModal);
+    document.getElementById("modal-enviar").addEventListener("click", function(){
+      var mensaje = document.getElementById("modal-mensaje").value.trim();
+      m.postulaciones.push({jugadorId:1, mensaje:mensaje});
+      m.yaPostulado = true;
+      closeModal();
+      renderGrid();
+      if(document.getElementById("view-detalle").classList.contains("active")) verDetalle(m.id);
+      toast("Postulación enviada a "+org.nombre+" 🎾");
+    });
+  }
+
+  function abrirModalPostulaciones(id){
+    var m = partidos.filter(function(p){return p.id===id;})[0];
+    if(!m) return;
+
+    var listaHtml = "";
+    if(m.postulaciones.length===0){
+      listaHtml = '<p class="modal-sub">Todavía no tenés postulaciones para este partido. Van a aparecer acá apenas alguien se postule.</p>';
+    } else {
+      m.postulaciones.forEach(function(post, idx){
+        var p = getJugador(post.jugadorId);
+        listaHtml +=
+          '<div class="postulante-item">'+
+            '<div class="postulante-top"><strong>'+p.nombre+'</strong><span class="badge nivel-'+p.nivel+'">'+nivelLabel(p.nivel)+'</span></div>'+
+            '<span>'+p.zona+' · '+p.asistencia+'% asistencia · '+p.partidosJugados+' partidos</span>'+
+            (post.mensaje ? '<p class="postulante-mensaje">"'+post.mensaje+'"</p>' : '')+
+            '<div class="acciones">'+
+              '<button class="btn btn-outline" data-verperfil="'+p.id+'">Ver perfil</button>'+
+              '<button class="btn btn-primary" data-aceptar="'+idx+'">Aceptar</button>'+
+              '<button class="btn btn-danger" data-rechazar="'+idx+'">Rechazar</button>'+
+              '<a class="btn btn-wa" target="_blank" rel="noopener" href="'+waLink(p.whatsapp,"Hola "+p.nombre+"! Te escribo por tu postulación en A Jugar.")+'">'+waIcon+'</a>'+
+            '</div>'+
+          '</div>';
+      });
+    }
+
+    modalCard.innerHTML =
+      '<h3>Postulaciones recibidas</h3>'+
+      '<p class="modal-sub">'+m.lugar+' · '+m.zona+' · '+fechaLegible(m.fecha,m.hora)+'</p>'+
+      listaHtml+
+      '<div class="modal-close-row"><button class="btn btn-outline" id="modal-cerrar">Cerrar</button></div>';
+
+    overlay.classList.add("show");
+    document.getElementById("modal-cerrar").addEventListener("click", closeModal);
+
+    modalCard.querySelectorAll("[data-verperfil]").forEach(function(btn){
+      btn.addEventListener("click", function(){ abrirModalPerfil(parseInt(btn.dataset.verperfil,10)); });
+    });
+    modalCard.querySelectorAll("[data-aceptar]").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        var idx = parseInt(btn.dataset.aceptar,10);
+        var post = m.postulaciones[idx];
+        var p = getJugador(post.jugadorId);
+        m.jugadoresIds.push(post.jugadorId);
+        m.postulaciones.splice(idx,1);
+        closeModal();
+        renderGrid();
+        if(document.getElementById("view-detalle").classList.contains("active")) verDetalle(m.id);
+        toast("Aceptaste a "+p.nombre+", ¡se suma al equipo! 🎾");
+      });
+    });
+    modalCard.querySelectorAll("[data-rechazar]").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        var idx = parseInt(btn.dataset.rechazar,10);
+        var nombre = getJugador(m.postulaciones[idx].jugadorId).nombre;
+        m.postulaciones.splice(idx,1);
+        toast("Rechazaste la postulación de "+nombre+".");
+        abrirModalPostulaciones(id);
+      });
+    });
+  }
+
+  // ---------- publicar partido ----------
+  var cuposSelect = document.getElementById("pu-cupos");
+  function renderAmigosInputs(){
+    var cupos = parseInt(cuposSelect.value,10);
+    var wrap = document.getElementById("amigos-inputs");
+    var wrapField = document.getElementById("amigos-wrap");
+    wrap.innerHTML = "";
+    if(cupos<=1){ wrapField.style.display="none"; return; }
+    wrapField.style.display = "flex";
+    for(var i=1;i<cupos;i++){
+      var input = document.createElement("input");
+      input.type="text"; input.placeholder="Nombre del compañero/a "+i; input.className="amigo-input";
+      wrap.appendChild(input);
+    }
+  }
+  cuposSelect.addEventListener("change", renderAmigosInputs);
+  renderAmigosInputs();
+
+  document.getElementById("form-publicar").addEventListener("submit", function(e){
+    e.preventDefault();
+    var nivelInput = document.querySelector('input[name="pu-nivel"]:checked');
+    var nivelSel = nivelInput ? nivelInput.value : "6ta";
+    var zonaSel = document.getElementById("pu-zona").value;
+    var cupos = parseInt(cuposSelect.value,10);
+    var amigosNombres = Array.prototype.map.call(document.querySelectorAll(".amigo-input"), function(i){return i.value.trim();}).filter(function(n){return n!=="";});
+
+    var jugadoresIds = [1];
+    amigosNombres.forEach(function(n){
+      JUGADORES[nextJugadorId] = {nombre:n, zona:zonaSel, nivel:nivelSel, whatsapp:""};
+      jugadoresIds.push(nextJugadorId);
+      nextJugadorId++;
+    });
+
+    JUGADORES[1].whatsapp = document.getElementById("pu-whatsapp").value.trim();
+
+    var nuevo = {
+      id: nextPartidoId++,
+      zona: zonaSel,
+      lugar: document.getElementById("pu-lugar").value.trim(),
+      fecha: document.getElementById("pu-fecha").value,
+      hora: document.getElementById("pu-hora").value,
+      nivel: nivelSel,
+      descripcion: document.getElementById("pu-desc").value.trim(),
+      organizadorId: 1,
+      jugadoresIds: jugadoresIds,
+      maxJugadores: 4,
+      postulaciones: [],
+      yaPostulado: false
+    };
+
+    partidos.push(nuevo);
+    ultimoAgregadoId = nuevo.id;
+    filtroZona.value = "";
+    Array.prototype.forEach.call(filtroNivelEl.children, function(c){c.classList.remove("active");});
+    filtroNivelEl.children[0].classList.add("active");
+    Array.prototype.forEach.call(filtroEstadoEl.children, function(c){c.classList.remove("active");});
+    filtroEstadoEl.children[0].classList.add("active");
+    estadoActivo = "";
+
+    renderGrid();
+    switchView("partidos");
+    e.target.reset();
+    renderAmigosInputs();
+    toast("¡Partido publicado! Ya podés recibir postulaciones.");
+  });
+
+  // ---------- perfil ----------
+  function renderProfilePanel(){
+    var j = getJugador(1);
+    document.getElementById("profile-panel").innerHTML =
+      '<div class="profile-head">'+
+        '<div class="avatar-circle lg" style="background:'+colorFor(1)+'">'+inicial(j.nombre)+'</div>'+
+        '<div><div class="nombre">'+j.nombre+'</div>'+
+        '<div class="meta"><span class="badge nivel-'+j.nivel+'">'+nivelLabel(j.nivel)+'</span><span>'+j.zona+'</span>'+
+        (j.verificado ? '<span class="badge-verificado">✓ Verificado</span>' : '')+'</div></div>'+
+      '</div>'+
+      (j.bio ? '<p class="profile-bio">'+j.bio+'</p>' : '')+
+      statsBlockHtml(j, true);
+
+    var vid = document.querySelector("#profile-panel [data-video]");
+    if(vid) vid.addEventListener("click", function(){ toast("Función disponible en la app completa 🎥"); });
+  }
+
+  document.getElementById("pe-nombre").value = JUGADORES[1].nombre;
+  document.getElementById("pe-zona").value = JUGADORES[1].zona;
+  document.getElementById("pe-whatsapp").value = JUGADORES[1].whatsapp;
+  document.getElementById("pe-bio").value = JUGADORES[1].bio;
+  renderProfilePanel();
+
+  document.getElementById("form-perfil").addEventListener("submit", function(e){
+    e.preventDefault();
+    var nivelInput = document.querySelector('input[name="pe-nivel"]:checked');
+    JUGADORES[1].nombre = document.getElementById("pe-nombre").value.trim() || JUGADORES[1].nombre;
+    JUGADORES[1].zona = document.getElementById("pe-zona").value;
+    JUGADORES[1].nivel = nivelInput ? nivelInput.value : JUGADORES[1].nivel;
+    JUGADORES[1].whatsapp = document.getElementById("pe-whatsapp").value.trim();
+    JUGADORES[1].bio = document.getElementById("pe-bio").value.trim();
+
+    document.getElementById("nav-username").textContent = JUGADORES[1].nombre;
+    document.getElementById("nav-avatar").textContent = inicial(JUGADORES[1].nombre);
+    document.getElementById("nav-avatar").style.background = colorFor(1);
+    renderProfilePanel();
+    renderGrid();
+    toast("Perfil actualizado ✓");
+  });
+
+  // ---------- init ----------
+  document.getElementById("nav-username").textContent = JUGADORES[1].nombre;
+  document.getElementById("nav-avatar").textContent = inicial(JUGADORES[1].nombre);
+  document.getElementById("nav-avatar").style.background = colorFor(1);
+  renderGrid();
+
+})();
+</script>
+
+</body>
+</html>
