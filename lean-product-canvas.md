@@ -2,7 +2,7 @@
 
 > Este canvas contiene hipótesis. La evidencia surgirá de observar y experimentar.
 
-**Estado del documento:** en construcción con el Product Coach (IA), a partir de la evidencia de `clase-02-descubrimiento.md` / research Pádel Amateur. Confirmado por el equipo: Caja 1 (V3), Caja 5 (Alternativa A) y quién paga en Caja 3. Recién actualizado: Caja 6, 7, pre-mortem y Caja 8 (experimento en dos fases), reescritos sobre la Alternativa A. Pendiente: línea base real de la Caja 2 y ejecutar el experimento.
+**Estado del documento:** en construcción con el Product Coach (IA), a partir de la evidencia de `clase-02-descubrimiento.md` / research Pádel Amateur. Confirmado por el equipo: Caja 1 (V3), Caja 5 (Alternativa A) y quién paga en Caja 3. Recién actualizado: Caja 6, 7, pre-mortem y Caja 8 (experimento en dos fases), reescritos sobre la Alternativa A. Pendiente: línea base real de la Caja 2 y ejecutar el experimento. **Actualización Clase 5:** se sumó investigación secundaria complementaria sobre adopción de apps deportivas en Argentina (nueva fila en el pre-mortem) mientras corre la Ronda 2 del experimento de Valor con `index-v2.html`.
 
 ---
 
@@ -159,6 +159,8 @@ Lo sabremos si, en una tarea guiada con el prototipo (Fase 1 del experimento), l
 Creemos que los organizadores publicarán su partido y revisarán postulaciones en la app en vez de recurrir directo a WhatsApp cuando les falte un jugador, y que jugadores sin grupo armado (como Valentina) se postularán a partidos publicados por otros.
 Lo sabremos si, en uso real (Fase 2 del experimento), una proporción relevante de organizadores publica más de un partido —uso repetido, no solo una prueba— y aparecen postulaciones reales de jugadores que no fueron invitados directamente.
 
+> **Nota (Clase 5):** investigación secundaria complementaria (ver sección "Investigación secundaria complementaria" más abajo) plantea una explicación alternativa a vigilar: el freno podría no ser la falta de hábito de usar apps deportivas en general, sino resistencia específica a un *marketplace de desconocidos*. No cambia la hipótesis todavía — se va a contrastar con la evidencia real que traiga la Ronda 2 del experimento de Valor.
+
 ### Hipótesis de factibilidad
 Creemos que podemos construir una versión mínima navegable (publicar partido → ver perfiles → postularse → aceptar → compartir grupo de WhatsApp) con herramientas accesibles y asistencia de IA, sin necesidad de un algoritmo de matching ni de datos históricos previos.
 Lo sabremos si el prototipo funcional permite completar ese flujo de punta a punta sin intervención manual del equipo por detrás.
@@ -179,6 +181,23 @@ Lo sabremos si el prototipo funcional permite completar ese flujo de punta a pun
 
 ---
 
+## Investigación secundaria complementaria (Clase 5)
+
+*Búsqueda realizada para poner a prueba el supuesto de "falta de hábito de usar apps para pádel en Argentina", planteado por el equipo como posible explicación de por qué ninguno de los 4 entrevistados usa apps hoy (ver Paso 1 más arriba).*
+
+| Fuente | Qué encontramos | Hecho, interpretación o supuesto |
+|---|---|---|
+| **Alquila tu Cancha (ATC)** — Forbes Argentina, jun. 2023 | Startup argentina de reservas de canchas (fútbol, pádel, tenis, etc.): más de 350 clubes y 200 mil usuarios a 2023, con inversores como Pico Mónaco. Se insertó resolviendo primero el problema del club (gestión, cobro de seña, estadísticas) — el jugador terminó adoptando la app porque su club ya la usaba, no porque la buscó activamente. | **Hecho.** Contradice la versión fuerte de "no hay cultura de apps deportivas en Argentina": sí la hay, al menos para reservas, con un mecanismo de adopción B2B-a-C distinto al que tiene hoy la Alternativa A (100% peer-to-peer, sin ningún club empujando la adopción). |
+| **TuCancha** (organizador de fútbol 5, Tucumán) — La Gaceta, feb. 2018 | App para armar partidos de fútbol 5 con amigos, resolviendo un dolor casi idéntico al documentado en la Clase 2 (jugador que falta a último momento). El propio fundador señaló que a los usuarios no les cerraba la idea de jugar con desconocidos, y que pesaba más compartir con amigos que el fútbol en sí. | **Hecho** (lo que reportó el fundador de esa app puntual). **No es evidencia directa de pádel en Buenos Aires** — es de otro deporte, otra provincia y otra época. |
+
+**Interpretación a vigilar (no confirmada):** el obstáculo de Comportamiento podría no ser "falta de hábito de usar apps para pádel" en general, sino algo más específico — resistencia a un *marketplace de desconocidos* en particular. Si fuera así, favorecería más a la Alternativa B (ampliar al círculo extendido) que a la Alternativa A tal como está planteada hoy (perfil público + postulación abierta). Se suma como una tercera explicación alternativa a las ya identificadas en el pre-mortem, y se va a contrastar con la pregunta de lista de espera agregada a la Ronda 2 del experimento de Valor.
+
+Fuentes:
+- https://www.forbesargentina.com/negocios/crearon-una-app-alquilar-canchas-tienen-mas-350-clubes-200-mil-usuarios-pico-monaco-como-inversor-n36054
+- https://www.lagaceta.com.ar/nota/761885/actualidad/tucancha-aplicacion-tucumana-para-organizar-futbol-5-amigos.html
+
+---
+
 ## 8. Pre-mortem
 
 *Seis meses después, la propuesta fracasó. Posibles causas:*
@@ -188,6 +207,7 @@ Lo sabremos si el prototipo funcional permite completar ese flujo de punta a pun
 | Problema poco relevante en general | Que el dolor es generalizado y no solo de algunos perfiles (como en E3) | Baja tasa de respuesta/interés al pedir participar en el piloto | Repetir el guion de entrevistas de la Clase 2 con participantes nuevos (Fase 1) |
 | Falta de valor real | Que ver perfil + nivel + video realmente reduce la incertidumbre del organizador, más que preguntar por WhatsApp | En la tarea guiada del prototipo, los participantes dicen que igual llamarían para confirmar | Medir en la Fase 1 si mencionan espontáneamente más confianza al ver el perfil |
 | Baja adopción | Que el organizador publica en la app en vez de escribir directo al grupo de WhatsApp | Publican una vez y no vuelven a usarla | Medir uso repetido en la Fase 2, no solo la primera prueba |
+| Rechazo específico a desconocidos, no falta de hábito digital (agregado en Clase 5, ver Investigación secundaria complementaria) | Que el freno es "no hay cultura de usar apps para pádel", cuando podría ser rechazo puntual a un marketplace de desconocidos (caso TuCancha) | Baja tasa de anotación en la lista de espera de la Ronda 2, pese a que sí existe adopción de otras apps deportivas en Argentina (caso ATC, 200 mil usuarios) | Comparar la respuesta a la lista de espera con la adopción conocida de apps de reserva; si también hay rechazo ahí, sospechar del mecanismo de "marketplace abierto" más que del hábito digital en general |
 | Liquidez insuficiente | Que hay suficiente gente publicando partidos *y* postulándose para que el organizador tenga opciones reales | Partidos publicados sin ninguna postulación | Contar postulaciones por partido publicado durante la Fase 2 |
 | Confianza/privacidad | Que los jugadores aceptan que su nivel, asistencia y video queden visibles a otros | Resistencia a completar el perfil o a grabar el video | Preguntar explícitamente en la Fase 1 si el video les incomoda; probar primero sin video |
 | Modelo de negocio | Que el usuario está dispuesto a pagar (suscripción o tolerar anuncios) | Nula disposición a pagar o rechazo a los anuncios en conversaciones informales del piloto | Pregunta directa de disposición a pagar al cierre de la Fase 2 (no antes) |
@@ -271,3 +291,4 @@ Con esta vuelta, las 8 cajas ya tienen contenido y las hipótesis/experimento es
 2. ✅ **Caja 3:** cliente = usuario final, vía suscripción o anuncios (no vía clubes en primera instancia).
 3. ✅ **Caja 5:** Alternativa A confirmada — "Publicar partido y postulación de jugadores, con perfil y nivel visible".
 4. ✅ **Cajas 6, 7, pre-mortem y 8:** reescritas sobre la Alternativa A, con el experimento dividido en dos fases (Valor vía tarea guiada, Comportamiento vía uso real).
+5. ✅ **Clase 5:** se sumó investigación secundaria complementaria (Alquila tu Cancha, TuCancha) como nueva explicación alternativa a vigilar para la hipótesis de Comportamiento, más una fila nueva en el pre-mortem. Se lanzó la Ronda 2 del experimento de Valor (formulario reordenado + difusión ampliada + pregunta de lista de espera), con el piloto validado informalmente por el equipo antes de enviarla.
