@@ -1,0 +1,319 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Jugar — Encontrá tu reemplazo de pádel</title>
+  <meta name="description" content="Publicá un partido con un lugar disponible y encontrá un reemplazo de nivel compatible en minutos." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       VIEW: AUTH (login / signup)
+  ═══════════════════════════════════════════ -->
+  <div id="view-auth" class="auth-shell view active">
+    <div class="auth-container">
+      <div class="auth-brand">
+        <div class="auth-icon">🏸</div>
+        <h1 class="auth-logo-text">A Jugar</h1>
+        <p class="auth-tagline">Encontrá un reemplazo en minutos,<br>no en horas de WhatsApp.</p>
+      </div>
+
+      <!-- Login form -->
+      <div id="panel-login" class="auth-card">
+        <h2 class="auth-title">Iniciar sesión</h2>
+        <div id="auth-error" class="auth-error-msg" style="display:none"></div>
+        <div class="form-group">
+          <label class="form-label" for="login-email">Email</label>
+          <input class="form-input" id="login-email" type="email" placeholder="tu@email.com" autocomplete="email" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="login-password">Contraseña</label>
+          <input class="form-input" id="login-password" type="password" placeholder="••••••••" autocomplete="current-password" />
+        </div>
+        <button class="btn-primary btn-full" id="btn-login" onclick="handleLogin()">Entrar</button>
+        <div class="auth-divider"><span>o</span></div>
+        <button class="btn-google" id="btn-google-login" onclick="handleGoogle()">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+          </svg>
+          Continuar con Google
+        </button>
+        <p class="auth-switch">¿No tenés cuenta? <button class="auth-link" onclick="switchAuthPanel('signup')">Registrarte</button></p>
+        <div class="auth-demo-hint">
+          <span class="demo-badge">DEMO</span>
+          matias@demo.com · Demo1234!
+        </div>
+      </div>
+
+      <!-- Signup form -->
+      <div id="panel-signup" class="auth-card" style="display:none">
+        <h2 class="auth-title">Crear cuenta</h2>
+        <div id="signup-error" class="auth-error-msg" style="display:none"></div>
+        <div class="form-group">
+          <label class="form-label" for="signup-name">Nombre completo</label>
+          <input class="form-input" id="signup-name" type="text" placeholder="Tu nombre y apellido" autocomplete="name" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="signup-email">Email</label>
+          <input class="form-input" id="signup-email" type="email" placeholder="tu@email.com" autocomplete="email" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="signup-password">Contraseña</label>
+          <input class="form-input" id="signup-password" type="password" placeholder="Mínimo 8 caracteres" autocomplete="new-password" />
+        </div>
+        <button class="btn-primary btn-full" id="btn-signup" onclick="handleSignup()">Crear cuenta</button>
+        <div class="auth-divider"><span>o</span></div>
+        <button class="btn-google" onclick="handleGoogle()">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+          </svg>
+          Continuar con Google
+        </button>
+        <p class="auth-switch">¿Ya tenés cuenta? <button class="auth-link" onclick="switchAuthPanel('login')">Iniciar sesión</button></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       VIEW: PROFILE SETUP (primer login)
+  ═══════════════════════════════════════════ -->
+  <div id="view-profile-setup" class="auth-shell view" style="display:none">
+    <div class="auth-container">
+      <div class="auth-brand" style="margin-bottom:24px">
+        <div class="auth-icon">👋</div>
+        <h2 class="auth-logo-text" style="font-size:24px">Completá tu perfil</h2>
+        <p class="auth-tagline">Los otros jugadores van a ver esta info<br>para decidir si jugar con vos.</p>
+      </div>
+      <div class="auth-card">
+        <div class="form-group">
+          <label class="form-label" for="setup-name">Nombre completo</label>
+          <input class="form-input" id="setup-name" type="text" placeholder="Como te conocen en la cancha" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="setup-level">Tu nivel de juego</label>
+          <select class="form-input" id="setup-level">
+            <option value="">Seleccioná tu nivel</option>
+            <option value="Principiante">Principiante (7ma)</option>
+            <option value="Intermedio">Intermedio (6ta)</option>
+            <option value="Avanzado">Avanzado (5ta)</option>
+            <option value="Semi-pro">Semi-pro (4ta)</option>
+            <option value="Experto">Experto (3ra o superior)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="setup-location">Zona / Barrio</label>
+          <input class="form-input" id="setup-location" type="text" placeholder="Ej: Palermo, CABA" />
+        </div>
+        <button class="btn-primary btn-full" onclick="saveProfileSetup()">Guardar y entrar →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       NAVBAR (visible solo cuando está autenticado)
+  ═══════════════════════════════════════════ -->
+  <nav class="navbar" id="navbar" style="display:none">
+    <div class="nav-inner">
+      <div class="nav-logo">
+        <span class="logo-icon">🏸</span>
+        <span class="logo-text">A Jugar</span>
+        <span class="logo-badge">MVP</span>
+      </div>
+      <div class="nav-tabs">
+        <button class="nav-tab" id="tab-partidos"    onclick="navTo('partidos')">Partidos</button>
+        <button class="nav-tab" id="tab-mis-partidos" onclick="navTo('mis-partidos')">Mis Partidos</button>
+        <button class="nav-tab" id="tab-publicar"    onclick="navTo('publicar')">+ Publicar</button>
+        <button class="nav-tab" id="tab-mi-perfil"   onclick="navTo('mi-perfil')">Mi Perfil</button>
+      </div>
+      <div class="nav-user" id="nav-user">
+        <div class="avatar-sm" id="nav-avatar">?</div>
+        <button class="btn-logout" onclick="handleLogout()" title="Cerrar sesión">↩</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════
+       MAIN CONTENT
+  ═══════════════════════════════════════════ -->
+  <main class="main-content" id="main-content" style="display:none">
+
+    <!-- VIEW: PARTIDOS (todos los partidos abiertos para postularse) -->
+    <section class="view" id="view-partidos" style="display:none">
+      <div class="section-header">
+        <div>
+          <h1 class="section-title">Partidos disponibles</h1>
+          <p class="section-sub">Postulate como reemplazo en partidos que buscan jugadores</p>
+        </div>
+        <div class="filter-row">
+          <button class="chip active" id="chip-all"   onclick="filterMatches('all')">Todos</button>
+          <button class="chip"        id="chip-open"  onclick="filterMatches('open')">Buscan jugador</button>
+          <button class="chip"        id="chip-resolved" onclick="filterMatches('resolved')">Resueltos</button>
+        </div>
+      </div>
+      <div id="partidos-loading" class="loading-state">
+        <div class="spinner"></div><p>Cargando partidos...</p>
+      </div>
+      <div class="cards-grid" id="partidos-grid" style="display:none"></div>
+      <div id="partidos-empty" class="empty-state" style="display:none">
+        <div class="empty-icon">🏸</div>
+        <p class="empty-msg">No hay partidos en esta categoría</p>
+        <p class="empty-sub">Intentá con otro filtro o publicá el tuyo</p>
+      </div>
+    </section>
+
+    <!-- VIEW: MIS PARTIDOS (vista organizador) -->
+    <section class="view" id="view-mis-partidos" style="display:none">
+      <div class="section-header">
+        <div>
+          <h1 class="section-title">Mis partidos</h1>
+          <p class="section-sub">Partidos que organizaste</p>
+        </div>
+        <button class="btn-primary" onclick="navTo('publicar')" style="white-space:nowrap">+ Publicar nuevo</button>
+      </div>
+      <div id="mis-partidos-loading" class="loading-state">
+        <div class="spinner"></div><p>Cargando...</p>
+      </div>
+      <div class="cards-grid" id="mis-partidos-grid" style="display:none"></div>
+      <div id="mis-partidos-empty" class="empty-state" style="display:none">
+        <div class="empty-icon">📋</div>
+        <p class="empty-msg">Todavía no publicaste ningún partido</p>
+        <button class="btn-primary" style="margin-top:16px" onclick="navTo('publicar')">Publicar mi primer partido</button>
+      </div>
+    </section>
+
+    <!-- VIEW: PUBLICAR PARTIDO -->
+    <section class="view" id="view-publicar" style="display:none">
+      <div class="section-header">
+        <div>
+          <h1 class="section-title">Publicar faltante</h1>
+          <p class="section-sub">Completá los datos y empezará a aparecer candidatos</p>
+        </div>
+      </div>
+      <form class="publish-form" id="publish-form" onsubmit="handlePublishMatch(event)">
+        <div class="form-group">
+          <label class="form-label" for="p-club">Club / Lugar</label>
+          <input class="form-input" id="p-club" type="text" placeholder="Ej: Club Náutico, Palermo Paddle" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="p-location">Zona / Barrio</label>
+          <input class="form-input" id="p-location" type="text" placeholder="Ej: Palermo, CABA" required />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="p-fecha">Fecha</label>
+            <input class="form-input" id="p-fecha" type="date" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="p-hora">Hora</label>
+            <input class="form-input" id="p-hora" type="time" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="p-nivel">Nivel buscado</label>
+          <select class="form-input" id="p-nivel" required>
+            <option value="">Seleccioná el nivel del partido</option>
+            <option value="Principiante">Principiante (7ma)</option>
+            <option value="Intermedio">Intermedio (6ta)</option>
+            <option value="Avanzado">Avanzado (5ta)</option>
+            <option value="Semi-pro">Semi-pro (4ta)</option>
+            <option value="Experto">Experto (3ra o superior)</option>
+          </select>
+        </div>
+        <div class="jugadores-confirmados-block">
+          <p class="form-label">Jugadores confirmados</p>
+          <div class="slots-row">
+            <div class="jugador-slot filled" id="slot-organizer">
+              <div class="avatar-sm" id="slot-organizer-avatar">?</div>
+              <span id="slot-organizer-name">Vos</span>
+              <span class="badge-buscando" style="background:rgba(0,230,118,0.1);color:var(--accent);border-color:rgba(0,230,118,0.3)">Organizador</span>
+            </div>
+            <div class="jugador-slot demo-slot">
+              <div class="avatar-sm" style="background:#7c4dff">L</div>
+              <span>Lucas · demo</span>
+              <span class="badge-nivel nivel-intermedio">Intermedio</span>
+            </div>
+            <div class="jugador-slot demo-slot">
+              <div class="avatar-sm" style="background:#ff6d00">S</div>
+              <span>Santiago · demo</span>
+              <span class="badge-nivel nivel-avanzado">Avanzado</span>
+            </div>
+            <div class="jugador-slot empty">
+              <div class="avatar-sm empty">?</div>
+              <span>Lugar disponible</span>
+              <span class="badge-buscando">Buscando</span>
+            </div>
+          </div>
+          <p class="form-hint">* Los 2 jugadores adicionales son de demostración. En la versión completa podrás invitar jugadores reales.</p>
+        </div>
+        <button class="btn-primary btn-full" type="submit" id="btn-publicar">Publicar partido</button>
+      </form>
+    </section>
+
+    <!-- VIEW: CANDIDATOS (organizador ve postulaciones) -->
+    <section class="view" id="view-candidatos" style="display:none">
+      <div class="back-bar">
+        <button class="btn-back" onclick="navTo('mis-partidos')">← Mis partidos</button>
+      </div>
+      <div id="candidatos-header" class="candidatos-header"></div>
+      <div id="candidatos-loading" class="loading-state">
+        <div class="spinner"></div><p>Cargando candidatos...</p>
+      </div>
+      <div id="candidatos-list" style="display:none"></div>
+      <div id="candidatos-empty" class="empty-state" style="display:none">
+        <div class="empty-icon">📬</div>
+        <p class="empty-msg">Todavía no hay candidatos</p>
+        <p class="empty-sub">Cuando alguien se postule, aparecerá acá</p>
+      </div>
+    </section>
+
+    <!-- VIEW: PARTIDO RESUELTO -->
+    <section class="view" id="view-resuelto" style="display:none">
+      <div class="resuelto-container">
+        <div class="resuelto-checkmark">✓</div>
+        <h1 class="resuelto-title">¡Partido completo!</h1>
+        <div class="resuelto-info" id="resuelto-info"></div>
+        <div class="resuelto-timing" id="resuelto-timing"></div>
+        <div class="resuelto-metrics" id="resuelto-metrics"></div>
+        <button class="btn-secondary" style="margin-top:32px" onclick="navTo('mis-partidos')">← Ver mis partidos</button>
+      </div>
+    </section>
+
+    <!-- VIEW: MI PERFIL -->
+    <section class="view" id="view-mi-perfil" style="display:none">
+      <div class="section-header">
+        <div>
+          <h1 class="section-title">Mi Perfil</h1>
+          <p class="section-sub">Tu carta de presentación ante otros jugadores</p>
+        </div>
+      </div>
+      <div class="profile-card-big" id="profile-main"></div>
+    </section>
+
+  </main><!-- /main-content -->
+
+  <!-- ═══════════════════════════════════════════
+       MODAL OVERLAY (perfil candidato, confirm, cualitativa)
+  ═══════════════════════════════════════════ -->
+  <div class="modal-overlay" id="modal-overlay" onclick="handleModalOverlayClick(event)">
+    <div class="modal-card" id="modal-card" onclick="event.stopPropagation()"></div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="supabase-client.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
