@@ -1,4 +1,4 @@
-﻿/* =====================================================
+/* =====================================================
    A Jugar MVP — app.js
    Flujo: faltante → candidatos → elección → resuelto
    ===================================================== */
@@ -449,6 +449,17 @@ async function showResolvedView(matchId, appId, resolvedAt) {
     '<div class="metric-box"><div class="metric-value">'+totalCands+'</div><div class="metric-label">Candidatos</div></div>'+
     '<div class="metric-box"><div class="metric-value">'+fd.value+'</div><div class="metric-label">1er candidato ('+fd.unit+')</div></div>'+
     '<div class="metric-box"><div class="metric-value">OK</div><div class="metric-label">Partido completado</div></div>';
+    
+  // NUEVO: Agregar el botón de WhatsApp
+  const phone = player.phone || '5491100000000'; // Fallback por si el perfil no tiene teléfono cargado
+  document.getElementById('resuelto-metrics').innerHTML += `
+    <div style="width: 100%; margin-top: 20px;">
+      <button class="btn-primary btn-full" style="background-color: #25D366; color: white;" onclick="contactarPorWhatsapp('${matchId}', '${phone}')">
+        💬 Contactar por WhatsApp
+      </button>
+    </div>
+  `;
+    
   navTo('resuelto');
 }
 
@@ -554,6 +565,17 @@ function esc(str) {
   return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
+
+async function contactarPorWhatsapp(matchId, phone) {
+  // 1. Registrar el clic silenciosamente en la base de datos
+  await sb.from('matches').update({ whatsapp_click: true }).eq('id', matchId);
+  
+  // 2. Redirigir al usuario a WhatsApp
+  // (Asumimos que 'phone' tiene el formato correcto, ej: 5491123456789)
+  window.open(`https://wa.me/${phone}?text=¡Hola! Te elegí como reemplazo en A Jugar.`, '_blank');
+}
+
+
 // ── EXPONER AL HTML
 window.navTo=navTo; window.handleLogin=handleLogin; window.handleSignup=handleSignup;
 window.handleGoogle=handleGoogle; window.handleLogout=handleLogout;
@@ -563,3 +585,4 @@ window.verCandidatos=verCandidatos; window.postularme=postularme;
 window.showCandidateModal=showCandidateModal; window.confirmSelection=confirmSelection;
 window.acceptCandidate=acceptCandidate; window.submitQualitative=submitQualitative;
 window.closeModal=closeModal; window.handleModalOverlayClick=handleModalOverlayClick;
+window.contactarPorWhatsapp=contactarPorWhatsapp;
