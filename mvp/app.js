@@ -68,7 +68,7 @@ function showSignupError(msg) { const e = document.getElementById('signup-error'
 async function onUserLoggedIn() {
   const { data: profile } = await sb.from('profiles').select('*').eq('id', state.user.id).single();
   state.profile = profile;
-  if (!profile || !profile.full_name || !profile.location) { showProfileSetupView(profile); return; }
+  if (!profile || !profile.full_name || !profile.location || !profile.phone) { showProfileSetupView(profile); return; }
   showMainApp(); navTo('partidos');
 }
 
