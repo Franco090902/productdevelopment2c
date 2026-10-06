@@ -81,16 +81,19 @@ function showProfileSetupView(profile) {
   if (profile?.full_name) document.getElementById('setup-name').value = profile.full_name;
   if (profile?.level) document.getElementById('setup-level').value = profile.level;
   if (profile?.location) document.getElementById('setup-location').value = profile.location;
+  if (profile?.phone) document.getElementById('setup-phone').value = profile.phone;
 }
 
 async function saveProfileSetup() {
   const full_name = document.getElementById('setup-name').value.trim();
   const level = document.getElementById('setup-level').value;
   const location = document.getElementById('setup-location').value.trim();
+  const phone = document.getElementById('setup-phone').value.trim();
   if (!full_name) { showToast('Ingresa tu nombre'); return; }
   if (!level) { showToast('Selecciona tu nivel'); return; }
   if (!location) { showToast('Ingresa tu zona'); return; }
-  const { error } = await sb.from('profiles').upsert({ id: state.user.id, full_name, level, location }, { onConflict: 'id' });
+  if (!phone) { showToast('Ingresa tu teléfono de WhatsApp'); return; }
+  const { error } = await sb.from('profiles').upsert({ id: state.user.id, full_name, level, location, phone }, { onConflict: 'id' });
   if (error) { showToast('Error: ' + error.message); return; }
   const { data: newProfile } = await sb.from('profiles').select('*').eq('id', state.user.id).single();
   state.profile = newProfile;
