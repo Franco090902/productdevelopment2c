@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>A Jugar — Panel de métricas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════════
+       VISTA: LOGIN
+  ══════════════════════════════════════════════ -->
+  <div id="view-login" class="view-login">
+    <div class="login-card">
+      <div class="login-logo">
+        <div class="logo-icon">📊</div>
+        <h1 class="login-title">A Jugar</h1>
+        <p class="login-subtitle">Panel interno · Solo equipo</p>
+      </div>
+
+      <div id="login-error" class="alert alert-error" style="display:none"></div>
+      <div id="login-no-access" class="alert alert-warning" style="display:none">
+        ⚠️ Sin acceso. Esta cuenta no tiene permisos para ver el panel.
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="login-email">Email</label>
+        <input id="login-email" type="email" class="form-input" placeholder="tu@email.com" autocomplete="email" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="login-password">Contraseña</label>
+        <input id="login-password" type="password" class="form-input" placeholder="••••••••" autocomplete="current-password" />
+      </div>
+      <button id="btn-login" class="btn-primary btn-full" onclick="handleLogin()">
+        Entrar
+      </button>
+
+      <p class="login-note">Acceso restringido al equipo de desarrollo.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       VISTA: DASHBOARD
+  ══════════════════════════════════════════════ -->
+  <div id="view-dashboard" class="view-dashboard" style="display:none">
+
+    <!-- Header -->
+    <header class="dashboard-header">
+      <div class="header-left">
+        <div class="header-brand">
+          <span class="header-icon">📊</span>
+          <div>
+            <div class="header-title">Panel de métricas</div>
+            <div class="header-subtitle">Solo equipo · <span id="header-email">—</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="header-updated">
+          Última actualización: <span id="last-updated">—</span>
+        </div>
+        <button class="btn-secondary btn-sm" id="btn-refresh" onclick="loadMetrics()">
+          ↻ Actualizar
+        </button>
+        <button class="btn-ghost btn-sm" onclick="handleLogout()">
+          Cerrar sesión
+        </button>
+      </div>
+    </header>
+
+    <!-- Filters -->
+    <section class="filters-bar">
+      <div class="filters-inner">
+        <div class="filter-group">
+          <label class="filter-label">Desde</label>
+          <input id="filter-desde" type="date" class="filter-input" />
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Hasta</label>
+          <input id="filter-hasta" type="date" class="filter-input" />
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Cuentas</label>
+          <select id="filter-modo" class="filter-input">
+            <option value="real">Solo reales</option>
+            <option value="real_team">Reales + team</option>
+            <option value="todas">Todas (incl. demo)</option>
+          </select>
+        </div>
+        <button class="btn-primary btn-sm" onclick="applyFilters()">Aplicar</button>
+        <div class="filter-spacer"></div>
+        <button class="btn-secondary btn-sm" id="btn-export-csv" onclick="exportCSV()">
+          ↓ Exportar CSV
+        </button>
+        <button class="btn-accent btn-sm" id="btn-snapshot" onclick="freezeSnapshot()">
+          ❄ Congelar snapshot
+        </button>
+      </div>
+    </section>
+
+    <!-- Loading / Error / Content -->
+    <div id="dashboard-loading" class="loading-state" style="display:none">
+      <div class="spinner"></div>
+      <p>Cargando métricas…</p>
+    </div>
+
+    <div id="dashboard-error" class="error-state" style="display:none">
+      <div class="error-icon">⚠️</div>
+      <p id="dashboard-error-msg"></p>
+      <button class="btn-secondary btn-sm" onclick="loadMetrics()">Reintentar</button>
+    </div>
+
+    <main id="dashboard-content" class="dashboard-content" style="display:none">
+
+      <!-- ── NORTH STAR ─────────────────────────────────── -->
+      <section class="section-north-star">
+        <div class="card card-highlight" id="card-north-star">
+          <div class="card-header">
+            <div class="card-label">⭐ NORTH STAR</div>
+            <div class="card-n" id="ns-n"></div>
+          </div>
+          <div class="ns-main">
+            <div class="ns-value" id="ns-value">—</div>
+            <div class="ns-desc">partidos completados gracias a A Jugar</div>
+          </div>
+          <div class="chart-container">
+            <canvas id="chart-weekly" height="120"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── TARJETAS PRINCIPALES ───────────────────────── -->
+      <section class="cards-grid">
+
+        <!-- Tiempo de resolución -->
+        <div class="card" id="card-tres">
+          <div class="card-header">
+            <div class="card-label">⏱ Tiempo mediano de resolución</div>
+            <div class="card-n" id="tres-n"></div>
+          </div>
+          <div class="card-value" id="tres-value">—</div>
+          <div class="card-unit">minutos</div>
+          <div class="card-note">Desde publicación hasta resolución</div>
+        </div>
+
+        <!-- Tiempo hasta primer candidato -->
+        <div class="card" id="card-tpc">
+          <div class="card-header">
+            <div class="card-label">🙋 Tiempo hasta 1er candidato</div>
+            <div class="card-n" id="tpc-n"></div>
+          </div>
+          <div class="card-value" id="tpc-value">—</div>
+          <div class="card-unit">minutos</div>
+          <div class="card-note">Mediana desde publicación</div>
+        </div>
+
+        <!-- Tasa de resolución -->
+        <div class="card" id="card-tasa">
+          <div class="card-header">
+            <div class="card-label">✅ Tasa de resolución</div>
+            <div class="card-n" id="tasa-n"></div>
+          </div>
+          <div class="card-value" id="tasa-pct">—</div>
+          <div class="card-unit">% resueltos</div>
+          <div class="tasa-breakdown" id="tasa-breakdown"></div>
+        </div>
+
+        <!-- Liquidez -->
+        <div class="card" id="card-liq">
+          <div class="card-header">
+            <div class="card-label">💧 Liquidez</div>
+            <div class="card-n" id="liq-n"></div>
+          </div>
+          <div class="card-value" id="liq-pct">—</div>
+          <div class="card-unit">% con al menos 1 postulación</div>
+          <div class="card-stat-row">
+            <span class="card-stat-item">
+              <span class="card-stat-label">Postulantes / partido</span>
+              <span class="card-stat-value" id="liq-ppp">—</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Decision factor -->
+        <div class="card card-wide" id="card-df">
+          <div class="card-header">
+            <div class="card-label">🔍 Valor del perfil — ¿Qué miraron?</div>
+            <div class="card-n" id="df-n"></div>
+          </div>
+          <div class="chart-container chart-sm">
+            <canvas id="chart-decision-factor"></canvas>
+          </div>
+        </div>
+
+        <!-- Primer postulante elegido -->
+        <div class="card" id="card-ppe">
+          <div class="card-header">
+            <div class="card-label">🥇 Primer postulante elegido</div>
+            <div class="card-n" id="ppe-n"></div>
+          </div>
+          <div class="card-value" id="ppe-pct">—</div>
+          <div class="card-unit">% de partidos</div>
+          <div class="card-note">Eligió al que llegó primero</div>
+        </div>
+
+        <!-- Retención -->
+        <div class="card" id="card-ret">
+          <div class="card-header">
+            <div class="card-label">🔄 Retención organizadores</div>
+            <div class="card-n" id="ret-n"></div>
+          </div>
+          <div class="card-value" id="ret-pct">—</div>
+          <div class="card-unit">% publica 2do partido en ≤14 días</div>
+        </div>
+
+      </section>
+
+      <!-- ── EMBUDO ─────────────────────────────────────── -->
+      <section class="section-funnel">
+        <div class="card card-full">
+          <div class="card-header">
+            <div class="card-label">🌊 Embudo de conversión</div>
+            <div class="card-note-inline">Los pasos en gris requieren instrumentación futura</div>
+          </div>
+          <div class="funnel-container" id="funnel-container"></div>
+        </div>
+      </section>
+
+      <!-- ── NO MEDIBLES ────────────────────────────────── -->
+      <section class="section-no-medible">
+        <div class="section-title">🔬 Métricas pendientes de instrumentación</div>
+        <div class="no-medible-grid" id="no-medible-grid"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Supabase JS v2 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <!-- Chart.js versión fija -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
