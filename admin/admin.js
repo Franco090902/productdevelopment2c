@@ -390,7 +390,7 @@ function renderFunnel(m) {
     { label: 'Con al menos\n1 postulación',  count: tasa.total_publicados > 0 ? Math.round((liq.pct_con_postulacion/100)*(liq.n_partidos||0)) : 0, available: true },
     { label: 'Candidato\nelegido',           count: tasa.resueltos ?? 0, available: true },
     { label: 'Partido\nresuelto',            count: tasa.resueltos ?? 0, available: true },
-    { label: 'Click\nWhatsApp',              count: null, available: false, nota: 'pendiente' },
+    { label: 'Click\nWhatsApp',              count: m.whatsapp?.n ?? null, available: !!m.whatsapp, nota: 'pendiente' },
     { label: 'Show-up\nconfirmado',          count: null, available: false, nota: 'pendiente' },
   ];
 
@@ -453,6 +453,7 @@ function exportCSV() {
     ['liquidez_postulantes_por_partido', m.liquidez?.postulantes_por_partido, m.liquidez?.n, 'postulantes', state.filters.desde, state.filters.hasta, state.filters.modo],
     ['primer_postulante_elegido_pct', m.primer_postulante_elegido?.pct, m.primer_postulante_elegido?.n, '%', state.filters.desde, state.filters.hasta, state.filters.modo],
     ['retencion_pct_14d', m.retencion?.pct, m.retencion?.n, '%', state.filters.desde, state.filters.hasta, state.filters.modo],
+    ['whatsapp_clicks_n', m.whatsapp?.n, m.tasa_resolucion?.resueltos, 'clicks', state.filters.desde, state.filters.hasta, state.filters.modo],
   ];
 
   // Decision factor: una fila por opción

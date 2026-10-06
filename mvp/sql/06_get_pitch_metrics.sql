@@ -56,6 +56,9 @@ DECLARE
   v_ret_pct      numeric;
   v_ret_n        bigint;
 
+  -- WhatsApp Clicks
+  v_wa_n         bigint;
+
 BEGIN
   -- ── Verificación de seguridad ──────────────────────────────
   IF NOT public.is_team() THEN
@@ -278,6 +281,20 @@ BEGIN
   FROM first_pub fp
   LEFT JOIN second_pub sp ON sp.organizer_id = fp.organizer_id;
 
+  -- ── WhatsApp Clicks ─────────────────────────────────────────
+  SELECT
+    COUNT(*) FILTER (WHERE m.whatsapp_click = true)
+  INTO v_wa_n
+  FROM matches m
+  JOIN profiles p ON p.id = m.organizer_id
+  WHERE m.status = 'resolved'
+    AND (m.published_at AT TIME ZONE v_tz)::date BETWEEN fecha_desde AND fecha_hasta
+    AND (
+      (modo = 'real'      AND p.account_type = 'real') OR
+      (modo = 'real_team' AND p.account_type IN ('real', 'team')) OR
+      (modo = 'todas')
+    );
+
   -- ── Ensamblado del resultado ────────────────────────────────
   RETURN jsonb_build_object(
 
@@ -343,17 +360,17 @@ BEGIN
       'n',               COALESCE(v_ret_n, 0)
     ),
 
+    'whatsapp', jsonb_build_object(
+      'label', 'Traspaso a WhatsApp',
+      'n',     COALESCE(v_wa_n, 0)
+    ),
+
     -- Métricas pendientes de infraestructura
     'no_medible', jsonb_build_array(
       jsonb_build_object(
         'key',   'descubrimiento',
         'label', 'Descubrimiento: link vs. listado',
         'nota',  'Requiere applications.source. Columna creada, pendiente de implementar en el app.'
-      ),
-      jsonb_build_object(
-        'key',   'whatsapp_traspaso',
-        'label', 'Traspaso a WhatsApp',
-        'nota',  'Requiere matches.whatsapp_click. Columna creada, pendiente de implementar en el app.'
       ),
       jsonb_build_object(
         'key',   'show_up_rate',
