@@ -108,6 +108,16 @@ Este documento define cada métrica del panel interno, su fórmula exacta, la fu
 
 ---
 
+### 💬 Traspaso a WhatsApp
+
+- **Definición:** cantidad de partidos resueltos en los que el organizador hizo clic en el botón de contacto por WhatsApp (`matches.whatsapp_click = true`).
+- **Fórmula:** `COUNT(matches WHERE status = 'resolved' AND whatsapp_click = true AND published_at IN rango)`
+- **n reportado:** cantidad de partidos resueltos en el período.
+- **Unidad:** clicks / traspasos.
+- **Nota:** instrumentado en v1.1. Un clic registra la activación del canal de contacto directo; no confirma la charla ni el presentismo final (ver *Show-up rate*).
+
+---
+
 ## Métricas no medibles aún
 
 Estas métricas se muestran en el panel como **"No medible aún"**. Las columnas están creadas en el esquema (donde aplica) pero el app aún no las registra.
@@ -115,7 +125,6 @@ Estas métricas se muestran en el panel como **"No medible aún"**. Las columnas
 | Métrica | Qué falta |
 |---|---|
 | **Descubrimiento: link vs. listado** | Poblar `applications.source` ('link' o 'listing') al crear la postulación. La columna existe en el esquema. |
-| **Traspaso a WhatsApp** | Registrar `matches.whatsapp_click = true` cuando el organizador hace clic en un botón de WhatsApp tras elegir. La columna existe. Nota: un clic ≠ conversación real. |
 | **Show-up rate** | Poblar `matches.outcome` ('played', 'no_show', 'cancelled') cuando el organizador confirma el resultado post-partido. La columna existe. |
 | **Embudo completo** | Requiere tabla de eventos (link_opened, signup_completed). No implementada. |
 | **Vistas de perfil antes de elegir** | Requiere tabla de eventos. No implementada. |
@@ -161,3 +170,4 @@ El trigger `prevent_account_type_change` solo bloquea cambios realizados por usu
 | Versión | Fecha | Cambios |
 |---|---|---|
 | v1.0 | Oct 2026 | Definición inicial. 8 métricas medibles, 5 no medibles. |
+| v1.1 | Oct 2026 | Se instrumentó Traspaso a WhatsApp (`whatsapp_click`). 9 métricas medibles, 4 no medibles. |
