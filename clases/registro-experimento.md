@@ -31,23 +31,23 @@
 ## 4. Ejecución
 
 - **Fecha y contexto:** respuestas recibidas entre el 08/09/2026 y el 12/09/2026, después de que cada persona probara el prototipo v1 por su cuenta y completara un formulario.
-- **Participantes:**
+- **Participantes** (nombres reemplazados por códigos P1–P4 por privacidad):
 
 | Participante | ¿Juega regular? | ¿Ya entrevistado en Clase 2? | Tarea probada | ¿Completó sin ayuda? | Estado |
 |---|---|---|---|---|---|
-| Nazareno | Sí | No (nuevo) | Ambas | Sí | Incluido |
-| Lautaro Ferrero Verdier | No | No (nuevo) | Publicar | Sí | **Excluido** — no encaja con el perfil buscado y su respuesta sobre el problema fue una broma no relacionada |
-| Mateo | No | Sí (según él) | Postularse | Sí, con matiz | Incluido — **inconsistencia registrada**: dice haber sido entrevistado en Clase 2 pero declara no jugar regular |
-| Franco Laporta | Sí | Sí | Publicar | Sí | Incluido — confirmado como contacto externo, no integrante del equipo |
+| P1 | Sí | No (nuevo) | Ambas | Sí | Incluido |
+| P2 | No | No (nuevo) | Publicar | Sí | **Excluido** — no encaja con el perfil buscado y su respuesta sobre el problema fue una broma no relacionada |
+| P3 | No | Sí (según él) | Postularse | Sí, con matiz | Incluido — **inconsistencia registrada**: dice haber sido entrevistado en Clase 2 pero declara no jugar regular |
+| P4 | Sí | Sí | Publicar | Sí | Incluido — confirmado como contacto externo, no integrante del equipo |
 
-- **Tarea realizada:** cada participante eligió una consigna (publicar partido o buscar/postularse); Nazareno hizo ambas.
+- **Tarea realizada:** cada participante eligió una consigna (publicar partido o buscar/postularse); P1 hizo ambas.
 - **Resultados obtenidos (sin interpretar, tal como los escribieron):**
-  - Nazareno: "Está fácil de usar." Sobre el perfil: "Está bueno que figure el nombre, nivel de habilidad y cantidad de partidos jugados. El dato de % de asistencia me parece que no hace falta mostrarlo." Sobre qué miraría para decidir: "Que coincida con mi nivel de habilidad. Sacaría la opción de tener que aceptar a alguien que se postule, si el partido está público en una app está abierto al primero que se meta."
-  - Mateo: "Cuando no encontré no sabía qué hacer, pero supongo que cuando haya es fácil." "Todo muy fácil y sencillo, no hay opciones de más y está bueno, es muy lógico." Confianza: "Partidos jugados." Qué miraría: "Buena onda y si es crack."
-  - Franco Laporta: "Me resultó fácil el matcheo con otras personas." Confianza: "Creo que lo que más confianza podría dar sería una foto de la persona. En cuanto al nivel decir nivel alto/bajo me parece relativo, podría pasar que llegues a un partido de nivel medio y que en realidad para vos sea nivel bajo." Qué miraría: "La foto de la persona, el lugar, el precio de la cancha." Diferencia con hoy: "Se diferencia bastante, hoy por hoy hacemos todo por WhatsApp con conocidos."
+  - P1: "Está fácil de usar." Sobre el perfil: "Está bueno que figure el nombre, nivel de habilidad y cantidad de partidos jugados. El dato de % de asistencia me parece que no hace falta mostrarlo." Sobre qué miraría para decidir: "Que coincida con mi nivel de habilidad. Sacaría la opción de tener que aceptar a alguien que se postule, si el partido está público en una app está abierto al primero que se meta."
+  - P3: "Cuando no encontré no sabía qué hacer, pero supongo que cuando haya es fácil." "Todo muy fácil y sencillo, no hay opciones de más y está bueno, es muy lógico." Confianza: "Partidos jugados." Qué miraría: "Buena onda y si es crack."
+  - P4: "Me resultó fácil el matcheo con otras personas." Confianza: "Creo que lo que más confianza podría dar sería una foto de la persona. En cuanto al nivel decir nivel alto/bajo me parece relativo, podría pasar que llegues a un partido de nivel medio y que en realidad para vos sea nivel bajo." Qué miraría: "La foto de la persona, el lugar, el precio de la cancha." Diferencia con hoy: "Se diferencia bastante, hoy por hoy hacemos todo por WhatsApp con conocidos."
 - **Anomalías observadas:**
-  - Una respuesta (Lautaro) excluida por no cumplir el perfil buscado y no aportar datos serios — se documenta que se recibió, no se descarta en silencio.
-  - Una inconsistencia de perfil no resuelta (Mateo) — se mantiene la respuesta, marcada.
+  - Una respuesta (P2) excluida por no cumplir el perfil buscado y no aportar datos serios — se documenta que se recibió, no se descarta en silencio.
+  - Una inconsistencia de perfil no resuelta (P3) — se mantiene la respuesta, marcada.
   - El método terminó siendo autoadministrado por formulario en vez de sesión observada en vivo: la "confianza" quedó elicitada por una pregunta directa del formulario, no observada espontáneamente durante la tarea como pedía el diseño original.
 
 ## 5. Evidencia
@@ -55,14 +55,14 @@
 **A favor:**
 - Los 3 participantes válidos completaron la tarea sin ayuda.
 - Los 3 mencionan espontáneamente elementos del perfil como generadores de confianza (nivel + partidos jugados, partidos jugados, posibilidad de "matchear").
-- Contraste explícito con la alternativa actual: Franco marca que se diferencia bastante de resolver todo por WhatsApp; Nazareno lo valora como buena alternativa a un problema frecuente.
+- Contraste explícito con la alternativa actual: P4 marca que se diferencia bastante de resolver todo por WhatsApp; P1 lo valora como buena alternativa a un problema frecuente.
 - Ninguno activó el criterio de fracaso (nadie se trabó del todo, nadie dijo preferir seguir por WhatsApp).
 
 **En contra o que matiza:**
-- El % de asistencia no convence como señal de confianza (Nazareno lo marca explícitamente como innecesario).
-- El nivel autodeclarado sigue generando dudas de subjetividad (Franco).
-- Piden señales que la app no tenía: foto de la persona (Franco) y una noción de "buena onda"/actitud (Mateo).
-- Fricción real: Mateo no supo qué hacer ante un resultado vacío (sin partidos disponibles).
+- El % de asistencia no convence como señal de confianza (P1 lo marca explícitamente como innecesario).
+- El nivel autodeclarado sigue generando dudas de subjetividad (P4).
+- Piden señales que la app no tenía: foto de la persona (P4) y una noción de "buena onda"/actitud (P3).
+- Fricción real: P3 no supo qué hacer ante un resultado vacío (sin partidos disponibles).
 
 **Interpretación del equipo** *(borrador a partir de la conversación — revisar antes de entregar):*
 > Parece validarse la idea general de que "ver un perfil ayuda a decidir" más que los campos puntuales elegidos originalmente: el nivel autodeclarado y el % de asistencia generan dudas, mientras que la foto y una señal de actitud son lo que la gente pide en su lugar.
@@ -71,7 +71,7 @@
 - Muestra muy chica (n=3 válidas, de las 8-10 que se apuntaba a recolectar).
 - La confianza fue preguntada directamente en el formulario, no observada espontáneamente durante la tarea, como pedía el criterio original ("sin sugerírselo").
 - Al ser autoadministrado, "dónde te trabaste" depende de que la persona lo recuerde y lo cuente bien, no de observación directa.
-- Mateo queda con una inconsistencia de perfil sin resolver.
+- P3 queda con una inconsistencia de perfil sin resolver.
 
 ## 6. Aprendizajes
 

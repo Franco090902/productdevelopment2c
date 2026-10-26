@@ -1,6 +1,6 @@
 # Aprendizaje y MVP — A Jugar (Pádel Amateur)
 
-> **Borrador de Clase 6 basado en la Ronda 2 de Clase 5.**
+> **Clase 6, basada en la Ronda 2 de Clase 5.**
 > La guía de Clase 6 pide recuperar qué queríamos comprobar, registrar hasta tres hechos, escribir un aprendizaje y una duda abierta, elegir un solo próximo paso y definir el punto de partida del MVP. fileciteturn16file0L58-L91
 
 ## 1. Lo que entiendo de nuestro experimento

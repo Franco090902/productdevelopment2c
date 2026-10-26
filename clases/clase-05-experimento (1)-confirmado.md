@@ -123,7 +123,7 @@ El criterio no fue modificado después de ver los resultados.
 
 ### 7.3 Anomalías conservadas
 
-- R3 y R8 no cumplen el filtro de perfil: se registran y se excluyen de las métricas (mismo tratamiento que Lautaro en la Ronda 1). R3 reporta una traba real de comprensión ("aparecieron nombres, no entendía qué era").
+- R3 y R8 no cumplen el filtro de perfil: se registran y se excluyen de las métricas (mismo tratamiento que P2 en la Ronda 1). R3 reporta una traba real de comprensión ("aparecieron nombres, no entendía qué era").
 - R2: respuestas de baja información ("Las canchas" repetido en dos preguntas distintas; "No" a la diferencia con hoy).
 - R4 y R9 comparten apellido: verificar independencia.
 - R9 dice "me dice que yo tengo 85": el prototipo asigna al tester el perfil simulado de Valentina (85% de asistencia). Posible defecto del instrumento, no de la hipótesis.

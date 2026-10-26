@@ -151,7 +151,13 @@ SET account_type = 'team'
 WHERE id = '<UUID del usuario>';
 ```
 
-El trigger `prevent_account_type_change` solo bloquea cambios realizados por usuarios autenticados via JWT; **no** bloquea updates desde el SQL Editor (donde `auth.uid()` es null).
+El trigger `trg_prevent_account_type_change` (definido en `04_account_type.sql`) lanza una excepción ante **cualquier** cambio de `account_type`, también desde el SQL Editor: la función no revisa `auth.uid()`. Por eso, para marcar una cuenta como `team`, hay que desactivar el trigger un momento y volver a activarlo:
+
+```sql
+ALTER TABLE public.profiles DISABLE TRIGGER trg_prevent_account_type_change;
+UPDATE public.profiles SET account_type = 'team' WHERE id = '<UUID del usuario>';
+ALTER TABLE public.profiles ENABLE TRIGGER trg_prevent_account_type_change;
+```
 
 ---
 

@@ -1,5 +1,7 @@
 # Clase 5 — Experimento funcional: Ronda 2 — A Jugar (Pádel Amateur)
 
+> **Vigencia:** el archivo vigente de la Ronda 2 es `clase-05-experimento (1)-confirmado.md`. Este se conserva como versión previa a la confirmación del equipo.
+>
 > **Estado:** ronda cerrada. Datos finales: 9 respuestas (17/09 a 21/09/2026, 19:22), verificadas contra `Prototipo_de_padel_Bueno.csv`.
 > **Clasificación del resultado:** propuesta de la IA en la sección 9, pendiente de confirmación del equipo.
 > Este archivo no reemplaza a `registro-experimento.md` (Clase 4, Ronda 1), que se conserva sin cambios. La Ronda 2 es la **Iteración 2 de la Fase 1** del experimento mínimo del Canvas (hipótesis de Valor).
@@ -123,7 +125,7 @@ El criterio no fue modificado después de ver los resultados.
 
 ### 7.3 Anomalías conservadas
 
-- R3 y R8 no cumplen el filtro de perfil: se registran y se excluyen de las métricas (mismo tratamiento que Lautaro en la Ronda 1). R3 reporta una traba real de comprensión ("aparecieron nombres, no entendía qué era").
+- R3 y R8 no cumplen el filtro de perfil: se registran y se excluyen de las métricas (mismo tratamiento que P2 en la Ronda 1). R3 reporta una traba real de comprensión ("aparecieron nombres, no entendía qué era").
 - R2: respuestas de baja información ("Las canchas" repetido en dos preguntas distintas; "No" a la diferencia con hoy).
 - R4 y R9 comparten apellido: verificar independencia.
 - R9 dice "me dice que yo tengo 85": el prototipo asigna al tester el perfil simulado de Valentina (85% de asistencia). Posible defecto del instrumento, no de la hipótesis.
